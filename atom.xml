@@ -3,13 +3,156 @@
   <title><![CDATA[I write code]]></title>
   <link href="http://dev.otrobloggeek.com/atom.xml" rel="self"/>
   <link href="http://dev.otrobloggeek.com/"/>
-  <updated>2015-04-19T18:05:49+02:00</updated>
+  <updated>2016-03-08T21:38:46+01:00</updated>
   <id>http://dev.otrobloggeek.com/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   
+<entry>
+  <title type="html"><![CDATA[My emacs setup]]></title>
+  <link href="http://dev.otrobloggeek.com/2016/03/08/my-emacs-setup.html"/>
+  <updated>2016-03-08T20:25:00+01:00</updated>
+  <id>http://dev.otrobloggeek.com/2016/03/08/my-emacs-setup</id>
+  <content type="html"><![CDATA[<p>I moved to emacs some time ago. Before using it I was a Vim user and after using
+it for quite a long time I decided to try emacs to see what it had to offer.</p>
+
+<p>I started by using <a href="https://github.com/bbatsov/prelude">prelude</a> it worked
+pretty well and I was pretty happy with it. The only problem I found on it is
+that I missed modal edition too much. So, after some time with prelude I moved
+to <a href="http://spacemacs.org/">Spacemacs</a>.</p>
+
+<p>Spacemacs puts together emacs with a quite sane configuration for
+<a href="https://www.emacswiki.org/emacs/Evil">evil</a></p>
+
+<p>It works pretty well, if you&#39;re a Vim user and you&#39;re thinking on trying emacs
+this is a good way to move. If after some time you don&#39;t want to use the modal
+edition anymore you can configure it to work the &quot;emacs way&quot; and it will work as
+well as with evil. I&#39;m not going to explain all the cool things on Spacemcas,
+for that you can just check their page and amazing documentation, it explains
+everything pretty well.</p>
+
+<p>I&#39;ve very little customizations for emacs, I mostly use the spacemacs&#39; default
+config expcept for some stuff:</p>
+
+<h2>Emacs as daemon</h2>
+
+<p>Starting spacemacs takes a bit of time, so the best way to have it working is to
+start emacs as a daemon and then using the <code>emacsclient</code> command to connect to
+it.</p>
+
+<p>By default, starting spacemcas starts it as a daemon but sometimes I found
+myself starting Spacemacs from the desktop environment and then connecting to it
+for small editions like quick git commits. Right now I use
+<a href="https://www.archlinux.org/">Arch Linux</a> on my development machine so I started
+playing with <a href="https://wiki.archlinux.org/index.php/systemd">systemd</a> to start it
+for me. It turned out to be a very quick win. One good thing with arch and
+systemd is that you can set up systemd to have user managed unit files (not
+started by root). To do so you just have to create the unit on
+<code>~/.config/systemd/user/emacs.service</code></p>
+
+<p>This is the one I use for spacemacs:</p>
+
+<pre><code>[Unit]
+Description=Emacs daemon
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/emacs --daemon
+ExecStop=/usr/bin/emacsclient --eval &quot;(kill-emacs)&quot;
+Restart=always
+Wants=ssh-agent.service
+
+[Install]
+WantedBy=default.target</code></pre>
+
+<p>After adding the file just do:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">systemctl --user <span class="nb">enable </span>emacs <span class="c"># to make it start with the machine</span>
+systemctl --user start emacs <span class="c"># to start it right away</span>
+systemctl --user stop emacs <span class="c"># to stop the daemon</span>
+systemctl --user restart emacs <span class="c"># to restart the daemon</span>
+</code></pre></div>
+<h2>Connect to emacs daemon from the terminal</h2>
+
+<p>Now, to connect into your emacs daemon you just have to do <code>emacsclient -t</code>.</p>
+
+<p>I usually set it as my default editor with this on my zshrc:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">export </span><span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;emacsclient -t&quot;</span>
+</code></pre></div>
+<p>and then I set an alias for it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">alias </span><span class="nv">e</span><span class="o">=</span><span class="nv">$EDITOR</span>
+</code></pre></div>
+<p>Then, when I want to edit a file I just do: <code>e filename.ext</code></p>
+
+<h2>Connect to emacs daemon from the desktop environment</h2>
+
+<p>That&#39;s pretty cool for quick edits in the terminal, but most of the times I work
+on an emacs window on my desktop environment. I wanted to be able to connect to
+the daemon too, so I ended up adding this to
+<code>~/.local/share/applications/spacemacs.desktop</code>:</p>
+
+<pre><code>[Desktop Entry]
+Name=Spacemacs
+GenericName=Text Editor
+Comment=Edit text
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+Exec=emacsclient -c %F
+Icon=~/.emacs.d/core/banners/img/spacemacs.png
+Type=Application
+Terminal=false
+Categories=Development;TextEditor;
+StartupWMClass=Emacs</code></pre>
+
+<p>The <code>-c</code> flag asks emacsclient to create a new frame controlled by the window
+manager. In my case Gnome Shell.</p>
+
+<h2>Emacs customizations</h2>
+
+<p>As I said before I almost use &quot;vanilla&quot; spacemacs. Most of its config is good
+enough for everything I do, except for a couple of things.</p>
+
+<p>All this configs go in the <code>dotspacemcas/user-config()</code> function on your <code>~/.spacemacs</code></p>
+
+<h3>Word movement:</h3>
+
+<p>If you&#39;re a Vim user, you&#39;d expect that moving 1 word in <code>method-name</code> would
+take you to the last <code>e</code>. This is not the case in emacs. To change it in ruby
+and javascript:</p>
+<div class="highlight"><pre><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;js2-mode-hook</span> <span class="nf">#&#39;</span><span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nv">modify-syntax-entry</span> <span class="nv">?_</span> <span class="s">&quot;w&quot;</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;ruby-mode-hook</span> <span class="nf">#&#39;</span><span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nv">modify-syntax-entry</span> <span class="nv">?_</span> <span class="s">&quot;w&quot;</span><span class="p">)))</span>
+</code></pre></div>
+<h3>Edit rabl files with ruby:</h3>
+<div class="highlight"><pre><code class="language-lisp" data-lang="lisp"><span class="c1">;; *.rabl files are ruby</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;auto-mode-alist</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;\\.rabl&quot;</span> <span class="o">.</span> <span class="nv">ruby-mode</span><span class="p">)))</span>
+</code></pre></div>
+<h3>Open the project root when selecting a project with projectile</h3>
+<div class="highlight"><pre><code class="language-lisp" data-lang="lisp"><span class="c1">;; Go to project root folder when switching to it</span>
+<span class="p">(</span><span class="k">setq</span> <span class="nv">projectile-switch-project-action</span> <span class="ss">&#39;projectile-dired</span><span class="p">)</span>
+</code></pre></div>
+<h3>Have a separate file for the emacs customizations.</h3>
+
+<p>Emacs has an easy customization mechanism
+<a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html">(see)</a>.
+I don&#39;t use it most of the times, but there&#39;re some times in which emacs stores
+stuff in the <code>~/.spacemacs</code> file because of it even if you don&#39;t want it. To
+avoid it I use a separate file for this customizations. To do so, add this to
+your <code>dotspacemacs/user-init()</code>:</p>
+<div class="highlight"><pre><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="k">setq</span> <span class="nv">custom-file</span> <span class="s">&quot;~/.emacs-custom.el&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">load</span> <span class="nv">custom-file</span><span class="p">)</span>
+</code></pre></div>
+<p>All customizations will to to <code>~/.emacs-custom.el</code> instead of your dotspacemacs file.</p>
+
+<h3>Others</h3>
+
+<p>I also have other stuff customized, like the layers I load, etc... but not much.
+If you&#39;re curious you can check
+<a href="https://github.com/franciscoj/dot-files/blob/master/emacs/spacemacs#L1">my dotspacemacs file</a></p>
+
+<p>I&#39;m sure I&#39;m missing something, but this is most of it. Enjoy emacs and good hacking!</p>
+]]></content>
+</entry>
+
 <entry>
   <title type="html"><![CDATA[Rock your gitting]]></title>
   <link href="http://dev.otrobloggeek.com/2014/04/27/rock-your-gitting.html"/>
@@ -674,21 +817,17 @@ installations.</p>
 and install pieces of software, like ImageMagick or ffmpeg. Each one of these
 formulas can be customized to make it suit your needs in an easy way. This is
 an example formula from their web site.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Wget</span> <span class="o">&lt;</span> <span class="no">Formula</span>
+  <span class="n">homepage</span> <span class="s2">&quot;https://www.gnu.org/software/wget/&quot;</span>
+  <span class="n">url</span> <span class="s2">&quot;https://ftp.gnu.org/gnu/wget/wget-1.15.tar.gz&quot;</span>
+  <span class="n">sha256</span> <span class="s2">&quot;52126be8cf1bddd7536886e74c053ad7d0ed2aa89b4b630f76785bac21695fcd&quot;</span>
 
-<pre><code>require &#39;formula&#39;
-
-class Wget &lt; Formula
-  homepage &#39;http://www.gnu.org/wget/&#39;
-  url &#39;http://ftp.gnu.org/wget-1.12.tar.gz&#39;
-  md5 &#39;308a5476fc096a8a525d07279a6f6aa3&#39;
-
-  def install
-    system &quot;./configure --prefix=#{prefix}&quot;
-    system &#39;make install&#39;
-  end
-end
-</code></pre>
-
+  <span class="k">def</span> <span class="nf">install</span>
+    <span class="nb">system</span> <span class="s2">&quot;./configure&quot;</span><span class="p">,</span> <span class="s2">&quot;--prefix=</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">system</span> <span class="s2">&quot;make&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
 <p>As you see, plain Ruby, easy to customize :)</p>
 
 <p>To install it the first step for me was to remove Mac Ports, the <a href="http://guide.macports.org/chunked/installing.macports.uninstalling.html">instructions are on its homepage</a>.

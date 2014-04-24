@@ -70,21 +70,17 @@ installations.</p>
 and install pieces of software, like ImageMagick or ffmpeg. Each one of these
 formulas can be customized to make it suit your needs in an easy way. This is
 an example formula from their web site.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Wget</span> <span class="o">&lt;</span> <span class="no">Formula</span>
+  <span class="n">homepage</span> <span class="s2">&quot;https://www.gnu.org/software/wget/&quot;</span>
+  <span class="n">url</span> <span class="s2">&quot;https://ftp.gnu.org/gnu/wget/wget-1.15.tar.gz&quot;</span>
+  <span class="n">sha256</span> <span class="s2">&quot;52126be8cf1bddd7536886e74c053ad7d0ed2aa89b4b630f76785bac21695fcd&quot;</span>
 
-<div><script src='https://gist.github.com/1128169.js'></script><noscript><pre><code>require &#39;formula&#39;
-
-class Wget &lt; Formula
-  homepage &#39;http://www.gnu.org/wget/&#39;
-  url &#39;http://ftp.gnu.org/wget-1.12.tar.gz&#39;
-  md5 &#39;308a5476fc096a8a525d07279a6f6aa3&#39;
-
-  def install
-    system &quot;./configure --prefix=#{prefix}&quot;
-    system &#39;make install&#39;
-  end
-end
-</code></pre></noscript></div>
-
+  <span class="k">def</span> <span class="nf">install</span>
+    <span class="nb">system</span> <span class="s2">&quot;./configure&quot;</span><span class="p">,</span> <span class="s2">&quot;--prefix=</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">system</span> <span class="s2">&quot;make&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
 <p>As you see, plain Ruby, easy to customize :)</p>
 
 <p>To install it the first step for me was to remove Mac Ports, the <a href="http://guide.macports.org/chunked/installing.macports.uninstalling.html">instructions are on its homepage</a>.
