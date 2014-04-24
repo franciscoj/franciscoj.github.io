@@ -92,14 +92,14 @@ are my config choices in case you want to have something as a base.</p>
 
 <p>Most of the things there are pretty much autoexplained, so I will just
 go through the ones which are not.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">[push]
+<div class="highlight"><pre><code class="language-text" data-lang="text">[push]
   default = current
 </code></pre></div>
 <p>This prevents you from pushing all your branches if you <code>git push</code>
 with no other paremeters.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">[core]
+<div class="highlight"><pre><code class="language-text" data-lang="text">[core]
   excludesfile = /some/path/.gitignore
-</code></pre></div><div class="highlight"><pre><code class="text language-text" data-lang="text">[alias]
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">[alias]
   l = log --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)an&gt;%Creset&#39; --abbrev-commit --date=relative
   co = checkout
   s = status --short -b
@@ -109,13 +109,13 @@ of how&#39;s your repo going.</p>
 
 <p><code>git s</code> will show the short status. This means that you will have
 something like this:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">## master...origin/master
+<div class="highlight"><pre><code class="language-text" data-lang="text">## master...origin/master
  D Gemfile
 AM _posts/2013-04-27-rock-your-gitting.markdown
 ?? file
 </code></pre></div>
 <p>instead of something like this:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">On branch master
+<div class="highlight"><pre><code class="language-text" data-lang="text">On branch master
 Your branch is up-to-date with &#39;origin/master&#39;.
 
 Changes to be committed:
@@ -166,7 +166,7 @@ on Ubuntu and mac&#39;s homebrew as well.</p>
 current git branch and your current git status on your branch. I use
 <a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a> with the
 <code>sunrise</code> theme to get something like this:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">--- src/blog ‹master* AMD?› »
+<div class="highlight"><pre><code class="language-text" data-lang="text">--- src/blog ‹master* AMD?› »
 </code></pre></div>
 <p>If you use emacs, have a look to
 <a href="http://magit.github.io/magit.html">magit</a>.</p>
