@@ -1,15 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns='http://www.w3.org/2005/Atom'>
   <title><![CDATA[I write code]]></title>
-  <link href="http://dev.otrobloggeek.com/atom.xml" rel="self"/>
+  <link href='http://dev.otrobloggeek.com/atom.xml' rel='self'/>
   <link href="http://dev.otrobloggeek.com/"/>
-  <updated>2016-03-08T22:05:13+01:00</updated>
+  <updated>2016-05-09T19:59:26+02:00</updated>
   <id>http://dev.otrobloggeek.com/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   
+<entry>
+  <title type="html"><![CDATA[Ruby ivar vs attr_reader]]></title>
+  <link href="http://dev.otrobloggeek.com/2016/05/09/ruby-ivar-vs-reader.html"/>
+  <updated>2016-05-09T19:32:00+02:00</updated>
+  <id>http://dev.otrobloggeek.com/2016/05/09/ruby-ivar-vs-reader</id>
+  <content type="html"><![CDATA[<h2>Ruby: ivar vs readers</h2>
+
+<p>Spoiler alert: Readers win.</p>
+
+<ol>
+<li>You don&#39;t rely on the instance state.</li>
+<li>You&#39;ve better protection againt typos. <code>@ivar</code> might not exist and nothing
+will fail <code>ivar</code> will complain.</li>
+<li>They&#39;re easier to mock in specs in case you need to.</li>
+<li>They properly wrap the state so that refactors are easier.</li>
+<li>They can be aliased.</li>
+<li>They can be <code>alias_method_chain</code>ed.</li>
+<li>No kittens will die.</li>
+<li>You can properly set their accessibility.</li>
+</ol>
+
+<h2>When should I use ivars?</h2>
+
+<ol>
+<li>When setting things on the constructor.</li>
+<li>When memoizing stuff (and be careful).</li>
+</ol>
+
+<h2>When NOT to use ivars?</h2>
+
+<ol>
+<li>To pass data from a method to another.</li>
+<li>To store stuff inside the same method.</li>
+</ol>
+
+<h2>What??? But I don&#39;t do it like that!!!</h2>
+
+<p>Up to you. There are not rules written on stone or anyting but they work, and
+they do it well. It is not a matter of taste.</p>
+
+<p>From my own little experience the more you isolate yourself from the class state
+the easier it will be to change the class when you need to. In codebases which
+change a lot, this introduces a very good advantage in your favor.</p>
+]]></content>
+</entry>
+
 <entry>
   <title type="html"><![CDATA[My emacs setup]]></title>
   <link href="http://dev.otrobloggeek.com/2016/03/08/my-emacs-setup.html"/>
@@ -62,7 +108,6 @@ Type=forking
 ExecStart=/usr/bin/emacs --daemon
 ExecStop=/usr/bin/emacsclient --eval &quot;(kill-emacs)&quot;
 Restart=always
-Wants=ssh-agent.service
 
 [Install]
 WantedBy=default.target</code></pre>

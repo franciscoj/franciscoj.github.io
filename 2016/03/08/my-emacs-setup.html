@@ -106,7 +106,6 @@ Type=forking
 ExecStart=/usr/bin/emacs --daemon
 ExecStop=/usr/bin/emacsclient --eval &quot;(kill-emacs)&quot;
 Restart=always
-Wants=ssh-agent.service
 
 [Install]
 WantedBy=default.target</code></pre></noscript></div>
