@@ -117,8 +117,7 @@ the needed logic to receive and validate the callback from PayPal.</p>
 <p>Set up an initializer file like <code>config/initializers/active_merchant.rb</code> with
 the following content (it explains itself... isn&#39;t it?):</p>
 
-<div><script src='https://gist.github.com/792543.js?file=active_merchant.rb'></script>
-<noscript><pre><code># config/initializer/active_merchant.rb
+<div><script src='https://gist.github.com/792543.js?file=active_merchant.rb'></script><noscript><pre><code># config/initializer/active_merchant.rb
 
 if Rails.env.production? 
   PAYPAL_ACCOUNT = &#39;production.paypal.account@domain.com&#39;
@@ -134,8 +133,7 @@ end
 <p>Use something like that to generate the button that your user has to push so
 that he makes the payment.</p>
 
-<div><script src='https://gist.github.com/792543.js?file=new.html.erb'></script>
-<noscript><pre><code>&lt;!-- app/views/payment/new.html.erb --&gt;
+<div><script src='https://gist.github.com/792543.js?file=new.html.erb'></script><noscript><pre><code>&lt;!-- app/views/payment/new.html.erb --&gt;
 
 &lt;% payment_service_for @order.id, PAYPAL_ACCOUNT,
         :amount =&gt; @order.price, :currency =&gt; &#39;EUR&#39;,
@@ -171,8 +169,7 @@ send a pull request to ActiveMerchant ^^.</p>
 <p>PayPal will send you a notification so you can know when the order is paid.
 This following code is a sample of how this can be done.</p>
 
-<div><script src='https://gist.github.com/792543.js?file=notifications_controller.rb'></script>
-<noscript><pre><code># app/controllers/notifications_controller.rb
+<div><script src='https://gist.github.com/792543.js?file=notifications_controller.rb'></script><noscript><pre><code># app/controllers/notifications_controller.rb
 
 class NotificationsController &lt; ApplicationController
   include ActiveMerchant::Billing::Integrations

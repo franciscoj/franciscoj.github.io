@@ -4,7 +4,7 @@
   <title><![CDATA[]]></title>
   <link href="http://dev.otrobloggeek.com/atom.xml" rel="self"/>
   <link href="http://dev.otrobloggeek.com/"/>
-  <updated>2014-04-24T18:50:15+02:00</updated>
+  <updated>2014-04-24T19:18:45+02:00</updated>
   <id>http://dev.otrobloggeek.com/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -40,8 +40,7 @@ can make it work with just a bit of hacking here and there.</p>
 simple_form to have it working with bootstrap so that it applies the
 right classes. On fields and wrappers.</p>
 
-<div><script src='https://gist.github.com/1334203.js?file=simple_form.rb'></script>
-<noscript><pre><code># config/initializer/simple_form.rb
+<pre><code># config/initializer/simple_form.rb
 
 SimpleForm.setup do |config|
   config.hint_class = &quot;hint input&quot;
@@ -49,15 +48,14 @@ SimpleForm.setup do |config|
   config.wrapper_class = :clearfix
   config.wrapper_error_class = :error
 end
-</code></pre></noscript></div>
+</code></pre>
 
 <p>We’re almost there… there’s one more step needed. Bootstrap uses an
 extra div container around each input field. I’m afraid I couldn’t
 find any way to add this extra wrapper with simple_form, so I ended up
 with this patch.</p>
 
-<div><script src='https://gist.github.com/1334203.js?file=simple_form_bootstrap.rb'></script>
-<noscript><pre><code># config/initializer/simple_form_bootstrap.rb
+<pre><code># config/initializer/simple_form_bootstrap.rb
 
 SimpleForm::Inputs.constants.each do |klazz|
   next if klazz == :Base
@@ -68,7 +66,7 @@ SimpleForm::Inputs.constants.each do |klazz|
     alias_method_chain :input, :surrounding_div
   end
 end
-</code></pre></noscript></div>
+</code></pre>
 
 <p>So far it works well, we couldn&#39;t find any caveats yet… but if you do,
 or if you find a better way to integrate these pieces of amazing soft,
@@ -104,28 +102,25 @@ just works!</p>
 <a href="http://github.com/ddollar/rack-debug/tree/stable-1.4">1.4.x version</a> if you&#39;re
 running ruby 1.8.x, since the new <a href="http://github.com/ddollar/rack-debug">2.x version</a> is prepared for ruby 1.9.2.</p>
 
-<div><script src='https://gist.github.com/889606.js?file=Gemfile'></script>
-<noscript><pre><code># Gemfile
+<pre><code># Gemfile
 
 # For ruby 1.8
 gem &quot;rack-debug&quot;, &quot;~&gt; 1.4&quot;, :group =&gt; :development
 # For ruby 1.9.2
-gem &quot;rack-debug&quot;, :group =&gt; :development</code></pre></noscript></div>
+gem &quot;rack-debug&quot;, :group =&gt; :development</code></pre>
 
 <p>Now that your gem is installed, add the middleware to Rails.</p>
 
-<div><script src='https://gist.github.com/889606.js?file=development.rb'></script>
-<noscript><pre><code># config/environments/development.rb
+<pre><code># config/environments/development.rb
 
 require &quot;rack/debug&quot;
-config.middleware.use &quot;Rack::Debug&quot;</code></pre></noscript></div>
+config.middleware.use &quot;Rack::Debug&quot;</code></pre>
 
 <p>And the helper rake tasks.</p>
 
-<div><script src='https://gist.github.com/889606.js?file=Rakefile'></script>
-<noscript><pre><code># Rakefile
+<pre><code># Rakefile
 
-require &#39;rack-debug/tasks&#39; if Rails.env.development?</code></pre></noscript></div>
+require &#39;rack-debug/tasks&#39; if Rails.env.development?</code></pre>
 
 <p>Now you can just add a <code>debugger</code> statement on any line on your application,
 restart it and run <code>rake debug</code> so that the Rack::Debug gem connects to the
@@ -156,19 +151,17 @@ allowing you to debug your script.</p>
 
 <p>I will use this small script to debug.</p>
 
-<div><script src='https://gist.github.com/889122.js?file=small_script.rb'></script>
-<noscript><pre><code>dude = true
+<pre><code>dude = true
 
 if dude
   puts &quot;Hey dude&quot;
 else
   puts &quot;Hello world&quot;
-end</code></pre></noscript></div>
+end</code></pre>
 
 <p>Now we can just run the debugger with <code>rdebug small_script.rb</code>. And... voila!</p>
 
-<div><script src='https://gist.github.com/889122.js?file=debug_1.rb'></script>
-<noscript><pre><code>[-4, 5] in /projects/889122/small_script.rb
+<pre><code>[-4, 5] in /projects/889122/small_script.rb
 =&gt; 1  dude = true
    2  
    3  if dude
@@ -177,7 +170,7 @@ end</code></pre></noscript></div>
 /projects/889122/small_script.rb:1
 dude = true
 (rdb:1) 
-</code></pre></noscript></div>
+</code></pre>
 
 <p>Here you can see the debugger.</p>
 
@@ -193,8 +186,7 @@ dude = true
 <p>Let&#39;s give it a quick try to see how the commands work. Type <code>help</code> and press
 enter.</p>
 
-<div><script src='https://gist.github.com/889122.js?file=rdebug_help'></script>
-<noscript><pre><code>ruby-debug help v0.10.4
+<pre><code>ruby-debug help v0.10.4
 Type &#39;help &lt;command-name&gt;&#39; for help on a specific command
 
 Available commands:
@@ -202,7 +194,7 @@ backtrace  delete   enable  help  method  putl     set     trace
 break      disable  eval    info  next    quit     show    undisplay
 catch      display  exit    irb   p       reload   step    up       
 condition  down     finish  kill  pp      restart  thread  var      
-continue   edit     frame   list  ps      save     tmate   where</code></pre></noscript></div>
+continue   edit     frame   list  ps      save     tmate   where</code></pre>
 
 <p>As you can see there&#39;re plenty of commands in the debugger, those ones you will
 use them a lot.</p>
@@ -292,8 +284,7 @@ the needed logic to receive and validate the callback from PayPal.</p>
 <p>Set up an initializer file like <code>config/initializers/active_merchant.rb</code> with
 the following content (it explains itself... isn&#39;t it?):</p>
 
-<div><script src='https://gist.github.com/792543.js?file=active_merchant.rb'></script>
-<noscript><pre><code># config/initializer/active_merchant.rb
+<pre><code># config/initializer/active_merchant.rb
 
 if Rails.env.production? 
   PAYPAL_ACCOUNT = &#39;production.paypal.account@domain.com&#39;
@@ -302,15 +293,14 @@ else
   ActiveMerchant::Billing::Base.mode = :test
 end
 
-</code></pre></noscript></div>
+</code></pre>
 
 <h3>Set up the PayPal button</h3>
 
 <p>Use something like that to generate the button that your user has to push so
 that he makes the payment.</p>
 
-<div><script src='https://gist.github.com/792543.js?file=new.html.erb'></script>
-<noscript><pre><code>&lt;!-- app/views/payment/new.html.erb --&gt;
+<pre><code>&lt;!-- app/views/payment/new.html.erb --&gt;
 
 &lt;% payment_service_for @order.id, PAYPAL_ACCOUNT,
         :amount =&gt; @order.price, :currency =&gt; &#39;EUR&#39;,
@@ -333,7 +323,7 @@ that he makes the payment.</p>
 &lt;% end %&gt;
 
 
-</code></pre></noscript></div>
+</code></pre>
 
 <p>If you need to send more info to PayPal take a look at the ActiveMerchant&#39;s doc
 or even at its code, to see which options are accepted by the
@@ -346,8 +336,7 @@ send a pull request to ActiveMerchant ^^.</p>
 <p>PayPal will send you a notification so you can know when the order is paid.
 This following code is a sample of how this can be done.</p>
 
-<div><script src='https://gist.github.com/792543.js?file=notifications_controller.rb'></script>
-<noscript><pre><code># app/controllers/notifications_controller.rb
+<pre><code># app/controllers/notifications_controller.rb
 
 class NotificationsController &lt; ApplicationController
   include ActiveMerchant::Billing::Integrations
@@ -383,7 +372,7 @@ class NotificationsController &lt; ApplicationController
     end
   end
 end
-</code></pre></noscript></div>
+</code></pre>
 
 <h2>That&#39;s all folks!</h2>
 
@@ -419,13 +408,12 @@ Shoulda macros are loaded without problem if the gem is vendored in the project
 dir, since shoulda will look for it. But to load the macros when not vendored
 you need the following code on your <code>test_helper.rb</code> just before <code>class ActiveSupport::TestCase</code>.</p>
 
-<div><script src='https://gist.github.com/734635.js'></script>
-<noscript><pre><code>require File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;shoulda_macros&#39;, &#39;paperclip.rb&#39;))
+<pre><code>require File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;shoulda_macros&#39;, &#39;paperclip.rb&#39;))
 
 class ActiveSupport::TestCase
 # ... 
 # here comes your custom test options
-end</code></pre></noscript></div>
+end</code></pre>
 
 <p>That way the macros are properly load and you can use them on your tests.</p>
 
@@ -433,11 +421,10 @@ end</code></pre></noscript></div>
 your Rakefile. If you&#39;re using Rails 3 it will properly load automatically the
 rake tasks for you so no need for this trick.</p>
 
-<div><script src='https://gist.github.com/734642.js'></script>
-<noscript><pre><code>#Newest versions
+<pre><code>#Newest versions
 import File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;lib&#39;, &#39;tasks&#39;, &#39;paperclip.rake&#39;))
 # Versions older than 2.3.2
-import File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;tasks&#39;, &#39;paperclip_tasks.rake&#39;))</code></pre></noscript></div>
+import File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;tasks&#39;, &#39;paperclip_tasks.rake&#39;))</code></pre>
 ]]></content>
   </entry>
   
@@ -455,8 +442,7 @@ flowplayer video inside.</p>
 
 <p>When closing the fancybox it will unload the video player and hide the div.</p>
 
-<div><script src='https://gist.github.com/571643.js'></script>
-<noscript><pre><code>&lt;!-- Don&#39;t forget to include flowplayer js and fancybox js and css --&gt;
+<pre><code>&lt;!-- Don&#39;t forget to include flowplayer js and fancybox js and css --&gt;
 
 &lt;div style=&quot;width:665px;height:480px;display:none;&quot; id=&quot;player&quot;&gt;
 &lt;/div&gt;
@@ -481,7 +467,7 @@ $(document).ready(function() {
          }
      });
  });
-&lt;/script&gt;</code></pre></noscript></div>
+&lt;/script&gt;</code></pre>
 ]]></content>
   </entry>
   
@@ -526,15 +512,14 @@ support images with a CMYK color scheme (<a href="http://www.plaveb.com/blog/cmy
 the uploads to the application it wasn&#39;t difficult to find a way to solve this.
 That&#39;s what I did:</p>
 
-<div><script src='https://gist.github.com/566895.js'></script>
-<noscript><pre><code>class User &lt; ActiveRecord::Base
+<pre><code>class User &lt; ActiveRecord::Base
 
   has_attached_file :avatar,
                     :styles =&gt; { :thumbnail =&gt; &quot;80x80&gt;&quot;, :normalized =&gt; &quot;100%&quot; },
                     :convert_options =&gt; { :all =&gt; &#39;-strip -colorspace RGB&#39;},
                     :default_style =&gt; :normalized
 
-end</code></pre></noscript></div>
+end</code></pre>
 
 <p>As you can see I define a &quot;normalized&quot; style which doesn&#39;t change geometry,
 however it&#39;s used to apply the color scheme conversion. Since it&#39;s the default
@@ -560,8 +545,7 @@ and install pieces of software, like ImageMagick or ffmpeg. Each one of these
 formulas can be customized to make it suit your needs in an easy way. This is
 an example formula from their web site.</p>
 
-<div><script src='https://gist.github.com/1128169.js'></script>
-<noscript><pre><code>require &#39;formula&#39;
+<pre><code>require &#39;formula&#39;
 
 class Wget &lt; Formula
   homepage &#39;http://www.gnu.org/wget/&#39;
@@ -573,7 +557,7 @@ class Wget &lt; Formula
     system &#39;make install&#39;
   end
 end
-</code></pre></noscript></div>
+</code></pre>
 
 <p>As you see, plain Ruby, easy to customize :)</p>
 
@@ -615,20 +599,18 @@ variable</li>
 property name in a variable</strong>. This kind of access can be accomplished using
 this notation.</p>
 
-<div><script src='https://gist.github.com/1128154.js?file=sample1.js'></script>
-<noscript><pre><code>var property = &quot;property_name&quot;;
+<pre><code>var property = &quot;property_name&quot;;
 var object = new Object()
 alert(object[property]) //will alert object.property_name
 alert(object[&quot;property_name&quot;]); //will alert object.property_name
-alert(window[&quot;object&quot;][&quot;property_name&quot;]) //will alert object.property_name</code></pre></noscript></div>
+alert(window[&quot;object&quot;][&quot;property_name&quot;]) //will alert object.property_name</code></pre>
 
 <p>If you don&#39;t believe it, just copy&amp;paste the previous code on Firebug and see
 how it works.</p>
 
 <p>So, let&#39;s now see an example on the previous cases</p>
 
-<div><script src='https://gist.github.com/1128154.js?file=sample2.js'></script>
-<noscript><pre><code>//assign a property to an object when
+<pre><code>//assign a property to an object when
 //you have its name calculated in a variable
 var property_name = &quot;a_great_property&quot;
 var object = new Object();
@@ -649,7 +631,7 @@ object[function_name_](); // will alert Hello world!
 //you&#39;ve it&#39;s name calculated in a variable
 var klass_name = &quot;Object&quot;;
 var object = new window[klass_name];
-</code></pre></noscript></div>
+</code></pre>
 
 <p>Those were just a couple of basic examples that I could remember, but I&#39;m quite
 sure that there are much more other evil uses of <code>eval()</code> out there that you

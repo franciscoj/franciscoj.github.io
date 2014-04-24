@@ -70,8 +70,7 @@ Shoulda macros are loaded without problem if the gem is vendored in the project
 dir, since shoulda will look for it. But to load the macros when not vendored
 you need the following code on your <code>test_helper.rb</code> just before <code>class ActiveSupport::TestCase</code>.</p>
 
-<div><script src='https://gist.github.com/734635.js'></script>
-<noscript><pre><code>require File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;shoulda_macros&#39;, &#39;paperclip.rb&#39;))
+<div><script src='https://gist.github.com/734635.js'></script><noscript><pre><code>require File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;shoulda_macros&#39;, &#39;paperclip.rb&#39;))
 
 class ActiveSupport::TestCase
 # ... 
@@ -84,8 +83,7 @@ end</code></pre></noscript></div>
 your Rakefile. If you&#39;re using Rails 3 it will properly load automatically the
 rake tasks for you so no need for this trick.</p>
 
-<div><script src='https://gist.github.com/734642.js'></script>
-<noscript><pre><code>#Newest versions
+<div><script src='https://gist.github.com/734642.js'></script><noscript><pre><code>#Newest versions
 import File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;lib&#39;, &#39;tasks&#39;, &#39;paperclip.rake&#39;))
 # Versions older than 2.3.2
 import File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;tasks&#39;, &#39;paperclip_tasks.rake&#39;))</code></pre></noscript></div>

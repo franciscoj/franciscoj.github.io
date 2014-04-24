@@ -68,8 +68,7 @@ support images with a CMYK color scheme (<a href="http://www.plaveb.com/blog/cmy
 the uploads to the application it wasn&#39;t difficult to find a way to solve this.
 That&#39;s what I did:</p>
 
-<div><script src='https://gist.github.com/566895.js'></script>
-<noscript><pre><code>class User &lt; ActiveRecord::Base
+<div><script src='https://gist.github.com/566895.js'></script><noscript><pre><code>class User &lt; ActiveRecord::Base
 
   has_attached_file :avatar,
                     :styles =&gt; { :thumbnail =&gt; &quot;80x80&gt;&quot;, :normalized =&gt; &quot;100%&quot; },

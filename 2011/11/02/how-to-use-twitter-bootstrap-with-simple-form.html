@@ -76,8 +76,7 @@ can make it work with just a bit of hacking here and there.</p>
 simple_form to have it working with bootstrap so that it applies the
 right classes. On fields and wrappers.</p>
 
-<div><script src='https://gist.github.com/1334203.js?file=simple_form.rb'></script>
-<noscript><pre><code># config/initializer/simple_form.rb
+<div><script src='https://gist.github.com/1334203.js?file=simple_form.rb'></script><noscript><pre><code># config/initializer/simple_form.rb
 
 SimpleForm.setup do |config|
   config.hint_class = &quot;hint input&quot;
@@ -92,8 +91,7 @@ extra div container around each input field. I’m afraid I couldn’t
 find any way to add this extra wrapper with simple_form, so I ended up
 with this patch.</p>
 
-<div><script src='https://gist.github.com/1334203.js?file=simple_form_bootstrap.rb'></script>
-<noscript><pre><code># config/initializer/simple_form_bootstrap.rb
+<div><script src='https://gist.github.com/1334203.js?file=simple_form_bootstrap.rb'></script><noscript><pre><code># config/initializer/simple_form_bootstrap.rb
 
 SimpleForm::Inputs.constants.each do |klazz|
   next if klazz == :Base

@@ -77,8 +77,7 @@ just works!</p>
 <a href="http://github.com/ddollar/rack-debug/tree/stable-1.4">1.4.x version</a> if you&#39;re
 running ruby 1.8.x, since the new <a href="http://github.com/ddollar/rack-debug">2.x version</a> is prepared for ruby 1.9.2.</p>
 
-<div><script src='https://gist.github.com/889606.js?file=Gemfile'></script>
-<noscript><pre><code># Gemfile
+<div><script src='https://gist.github.com/889606.js?file=Gemfile'></script><noscript><pre><code># Gemfile
 
 # For ruby 1.8
 gem &quot;rack-debug&quot;, &quot;~&gt; 1.4&quot;, :group =&gt; :development
@@ -87,16 +86,14 @@ gem &quot;rack-debug&quot;, :group =&gt; :development</code></pre></noscript></d
 
 <p>Now that your gem is installed, add the middleware to Rails.</p>
 
-<div><script src='https://gist.github.com/889606.js?file=development.rb'></script>
-<noscript><pre><code># config/environments/development.rb
+<div><script src='https://gist.github.com/889606.js?file=development.rb'></script><noscript><pre><code># config/environments/development.rb
 
 require &quot;rack/debug&quot;
 config.middleware.use &quot;Rack::Debug&quot;</code></pre></noscript></div>
 
 <p>And the helper rake tasks.</p>
 
-<div><script src='https://gist.github.com/889606.js?file=Rakefile'></script>
-<noscript><pre><code># Rakefile
+<div><script src='https://gist.github.com/889606.js?file=Rakefile'></script><noscript><pre><code># Rakefile
 
 require &#39;rack-debug/tasks&#39; if Rails.env.development?</code></pre></noscript></div>
 
