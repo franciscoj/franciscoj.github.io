@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[]]></title>
+  <link href="http://dev.otrobloggeek.com/atom.xml" rel="self"/>
+  <link href="http://dev.otrobloggeek.com/"/>
+  <updated>2014-04-24T18:13:35+02:00</updated>
+  <id>http://dev.otrobloggeek.com/</id>
+  <author>
+    <name><![CDATA[]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to use Twitter bootstrap with simple_form]]></title>
+    <link href="http://dev.otrobloggeek.com/2011/11/02/how-to-use-twitter-bootstrap-with-simple-form.html"/>
+    <updated>2011-11-02T00:00:00+01:00</updated>
+    <id>http://dev.otrobloggeek.com/2011/11/02/how-to-use-twitter-bootstrap-with-simple-form</id>
+    <content type="html"><![CDATA[<p><strong>Edit April 24th 2014</strong>: This is too old to be still
+  relevant. There&#39;s even new versions of bootstrap, so don&#39;t trust the
+  content in this article.
+<strong>Edit 2012-07-03</strong>: As you can see in the comments, simple_form has
+  build it support for bootstrap. And built in a much better way than
+  this. Check the
+  <a href="https://github.com/plataformatec/simple_form/wiki/Twitter-Bootstrap-v2-and-simple_form-v2">wiki</a>
+  to see how to make it work.</p>
+
+<p>I <a href="http://twitter.github.com/bootstrap/">Twitter’s bootstrap</a>. It’s
+easy to use and perfect to start your new applications with a good
+result. It provides some basic CSS tools like a grid system together
+with some other fancy things.</p>
+
+<p>However it has a small problem. You cannot make it work with a Rails
+application out of the box. Don’t worry, it’s not a big problem. You
+can make it work with just a bit of hacking here and there.</p>
+
+<p>This are the minimum config options that I’ve found that you need on
+simple_form to have it working with bootstrap so that it applies the
+right classes. On fields and wrappers.</p>
+
+<div><script src='https://gist.github.com/1334203.js?file=simple_form.rb'></script>
+<noscript><pre><code># config/initializer/simple_form.rb
+
+SimpleForm.setup do |config|
+  config.hint_class = &quot;hint input&quot;
+  config.error_class = &#39;error input&#39;
+  config.wrapper_class = :clearfix
+  config.wrapper_error_class = :error
+end
+</code></pre></noscript></div>
+
+<p>We’re almost there… there’s one more step needed. Bootstrap uses an
+extra div container around each input field. I’m afraid I couldn’t
+find any way to add this extra wrapper with simple_form, so I ended up
+with this patch.</p>
+
+<div><script src='https://gist.github.com/1334203.js?file=simple_form_bootstrap.rb'></script>
+<noscript><pre><code># config/initializer/simple_form_bootstrap.rb
+
+SimpleForm::Inputs.constants.each do |klazz|
+  next if klazz == :Base
+  &quot;SimpleForm::Inputs::#{klazz.to_s}&quot;.constantize.class_eval do
+    def input_with_surrounding_div
+      @builder.template.content_tag :div, input_without_surrounding_div, :class =&gt; &quot;input&quot;
+    end
+    alias_method_chain :input, :surrounding_div
+  end
+end
+</code></pre></noscript></div>
+
+<p>So far it works well, we couldn&#39;t find any caveats yet… but if you do,
+or if you find a better way to integrate these pieces of amazing soft,
+please let me know!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails debug with passenger]]></title>
+    <link href="http://dev.otrobloggeek.com/2011/03/27/rails-debug-with-passenger.html"/>
+    <updated>2011-03-27T00:00:00+01:00</updated>
+    <id>http://dev.otrobloggeek.com/2011/03/27/rails-debug-with-passenger</id>
+    <content type="html"><![CDATA[<p><strong>Edit 2012-07-05:</strong> You can now install <code>rack-debug</code> in a much more easy way by
+using my <a href="http://github.com/Zorros/debugger-rails">debugger-rails</a> gem.</p>
+
+<h2>Without Passenger</h2>
+
+<p>In my last post we learned <a href="http://dev.otrobloggeek.com/2011/03/26/ruby-debug.html">how to debug ruby scripts</a>. It can be done
+as well with a rails application, you just have to start it with <code>script/server
+-u</code>. The <code>-u</code> means to start on debug mode. Just make sure you have the
+<code>ruby-debug</code> gem installed.</p>
+
+<h2>With Passenger</h2>
+
+<p>That works amazing... unless you use Passenger on development. If you do, then
+you&#39;ll need a different way to run the debugger. Don&#39;t panic, it&#39;s quite easy,
+thanks to the <a href="http://github.com/ddollar/rack-debug">rack-debug</a> gem.
+Rack::Debug is a gem which provides an easy interface to <code>ruby-debug</code> for
+applications running on Passenger. And the good thing about it is that... it
+just works!</p>
+
+<p>To use it, just add the <code>ruby-debug</code> gem to your Gemfile, make sure to use the
+<a href="http://github.com/ddollar/rack-debug/tree/stable-1.4">1.4.x version</a> if you&#39;re
+running ruby 1.8.x, since the new <a href="http://github.com/ddollar/rack-debug">2.x version</a> is prepared for ruby 1.9.2.</p>
+
+<div><script src='https://gist.github.com/889606.js?file=Gemfile'></script>
+<noscript><pre><code># Gemfile
+
+# For ruby 1.8
+gem &quot;rack-debug&quot;, &quot;~&gt; 1.4&quot;, :group =&gt; :development
+# For ruby 1.9.2
+gem &quot;rack-debug&quot;, :group =&gt; :development</code></pre></noscript></div>
+
+<p>Now that your gem is installed, add the middleware to Rails.</p>
+
+<div><script src='https://gist.github.com/889606.js?file=development.rb'></script>
+<noscript><pre><code># config/environments/development.rb
+
+require &quot;rack/debug&quot;
+config.middleware.use &quot;Rack::Debug&quot;</code></pre></noscript></div>
+
+<p>And the helper rake tasks.</p>
+
+<div><script src='https://gist.github.com/889606.js?file=Rakefile'></script>
+<noscript><pre><code># Rakefile
+
+require &#39;rack-debug/tasks&#39; if Rails.env.development?</code></pre></noscript></div>
+
+<p>Now you can just add a <code>debugger</code> statement on any line on your application,
+restart it and run <code>rake debug</code> so that the Rack::Debug gem connects to the
+debugger. Easy, eh?</p>
+
+<p>Enjoy the debugging!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to debug a ruby script]]></title>
+    <link href="http://dev.otrobloggeek.com/2011/03/26/ruby-debug.html"/>
+    <updated>2011-03-26T00:00:00+01:00</updated>
+    <id>http://dev.otrobloggeek.com/2011/03/26/ruby-debug</id>
+    <content type="html"><![CDATA[<p>Debugging r00lz. Maybe you&#39;re trying to find an elusive bug or how that
+spaghetti piece of code works, in any case is a quite powerful tool and you
+should add it to your day to day job.</p>
+
+<p>Debugging in ruby is easy... and you don&#39;t even need a GUI for it! Ruby has the
+amazing <code>ruby-debug</code> gem. That gem provides an executable to debug your ruby
+software. There&#39;re versions for ruby 1.8.x and ruby 1.9.x. I will explain here
+how to install and use the version for ruby 1.8, but ruby 1.9 version is quite
+similar.</p>
+
+<p>First install the gem with <code>gem install ruby-debug</code>. This will give you an
+executable called <code>rdebug</code> which executes the ruby interpreter in debug mode
+allowing you to debug your script.</p>
+
+<p>I will use this small script to debug.</p>
+
+<div><script src='https://gist.github.com/889122.js?file=small_script.rb'></script>
+<noscript><pre><code>dude = true
+
+if dude
+  puts &quot;Hey dude&quot;
+else
+  puts &quot;Hello world&quot;
+end</code></pre></noscript></div>
+
+<p>Now we can just run the debugger with <code>rdebug small_script.rb</code>. And... voila!</p>
+
+<div><script src='https://gist.github.com/889122.js?file=debug_1.rb'></script>
+<noscript><pre><code>[-4, 5] in /projects/889122/small_script.rb
+=&gt; 1  dude = true
+   2  
+   3  if dude
+   4    puts &quot;Hey dude&quot;
+   5  else
+/projects/889122/small_script.rb:1
+dude = true
+(rdb:1) 
+</code></pre></noscript></div>
+
+<p>Here you can see the debugger.</p>
+
+<p>Here&#39;s the file in which you&#39;ve stopped:
+<code>[-4, 5] in /projects/889122/small_script.rb</code></p>
+
+<p>This arrow indicates that you&#39;re stopped there:
+<code>=&gt; 1 dude = true</code></p>
+
+<p>And this is the rdebug console where you can give commands to the debugger.:
+<code>(rdb:1) _</code></p>
+
+<p>Let&#39;s give it a quick try to see how the commands work. Type <code>help</code> and press
+enter.</p>
+
+<div><script src='https://gist.github.com/889122.js?file=rdebug_help'></script>
+<noscript><pre><code>ruby-debug help v0.10.4
+Type &#39;help &lt;command-name&gt;&#39; for help on a specific command
+
+Available commands:
+backtrace  delete   enable  help  method  putl     set     trace    
+break      disable  eval    info  next    quit     show    undisplay
+catch      display  exit    irb   p       reload   step    up       
+condition  down     finish  kill  pp      restart  thread  var      
+continue   edit     frame   list  ps      save     tmate   where</code></pre></noscript></div>
+
+<p>As you can see there&#39;re plenty of commands in the debugger, those ones you will
+use them a lot.</p>
+
+<ul>
+<li><strong>next</strong> (you can use it shortened as <code>n</code> as well) will make the
+script go one step forward.</li>
+<li><strong>continue</strong> (shortened as <code>c</code>) will make the script continue until it
+finds a breakpoint.</li>
+<li><strong>step</strong> (shortened as <code>s</code>) will step into a method.</li>
+<li><strong>break</strong> (shortened as <code>b</code>) sets a breakpoint with the format <code>b
+file_name.rb:XX</code> where XX is the line number.</li>
+</ul>
+
+<p>For everything else... I encourage you to spend 15 minutes reading each command
+help 1 by 1. Special mention to <code>irb</code>, <code>where</code>, <code>up</code> and <code>down</code> commands.</p>
+
+<p>Enjoy your debugging!!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PayPal on Rails]]></title>
+    <link href="http://dev.otrobloggeek.com/2011/01/30/paypal-on-rails.html"/>
+    <updated>2011-01-30T00:00:00+01:00</updated>
+    <id>http://dev.otrobloggeek.com/2011/01/30/paypal-on-rails</id>
+    <content type="html"><![CDATA[<p>After many searches in Google I found many explanations on how to use PayPal,
+however any of them did what I exactly needed. So here&#39;s what I did step by
+step last time I needed it.</p>
+
+<h2>How PayPal works</h2>
+
+<p>Take a look at this flow diagram:</p>
+
+<p><img class='img-responsive img-thumbnail' src='/assets/PayPalWPS.jpg '></p>
+
+<ol>
+<li>  The buyer goes to PayPal and performs the needed payment. (This is steps
+  1 and 2 in the diagram)</li>
+<li>  PayPal takes the payment and redirects your buyer back to your
+  application.  (steps 3 and 4)</li>
+<li>  Some time after that, PayPal will send you a callback response with the
+details of the received payment. Your application will use those details to
+make sure the payment was OK and mark the order as paid. (Steps 5 and 6)</li>
+</ol>
+
+<h2>Set up your PayPal sandbox</h2>
+
+<ul>
+<li><p><a href="https://developer.paypal.com">Sign up here</a> To get a sandbox
+ account. This account will allow you to handle your development
+ tools:</p>
+
+<ul>
+<li><em>Seller and buyer mock accounts</em>: That way you can test your payments
+without need to use a real account/bank account/credit card.</li>
+<li><em>IPN (Instant Payment Notification) testing</em>: This is the way that
+PayPal informs your application when the payment is done.</li>
+</ul></li>
+<li><p>Create a seller and buyer mock accounts. Preconfigured seller
+accounts failed for me, they always failed for me 100% of times in a
+period of many months. I&#39;m quite sure it&#39;s my fault, but I just
+couldn&#39;t find enough info to know what I did wrong.</p></li>
+</ul>
+
+<h2>Set up your application</h2>
+
+<h3>Install ActiveMerchant.</h3>
+
+<p>Here it came my second big problem. Just couldn&#39;t figure out how to make it
+work in the form of a gem. So I finally had to install it as a plugin.
+<code>rails plugin install git://github.com/Shopify/active_merchant.git</code></p>
+
+<p>From the above diagram you application will need to:</p>
+
+<ul>
+<li>Be able to send payment details to PayPal.</li>
+<li>Receive a callback from PayPal to acknowledge the received payment.</li>
+</ul>
+
+<p>And here&#39;s where ActiveMerchant enters. It provides a helper to craft a form
+with the needed hidden fields which you will send to PayPal and a class with
+the needed logic to receive and validate the callback from PayPal.</p>
+
+<h3>Configure Active Merchant</h3>
+
+<p>Set up an initializer file like <code>config/initializers/active_merchant.rb</code> with
+the following content (it explains itself... isn&#39;t it?):</p>
+
+<div><script src='https://gist.github.com/792543.js?file=active_merchant.rb'></script>
+<noscript><pre><code># config/initializer/active_merchant.rb
+
+if Rails.env.production? 
+  PAYPAL_ACCOUNT = &#39;production.paypal.account@domain.com&#39;
+else
+  PAYPAL_ACCOUNT = &#39;test.paypal.account@domain.com&#39;
+  ActiveMerchant::Billing::Base.mode = :test
+end
+
+</code></pre></noscript></div>
+
+<h3>Set up the PayPal button</h3>
+
+<p>Use something like that to generate the button that your user has to push so
+that he makes the payment.</p>
+
+<div><script src='https://gist.github.com/792543.js?file=new.html.erb'></script>
+<noscript><pre><code>&lt;!-- app/views/payment/new.html.erb --&gt;
+
+&lt;% payment_service_for @order.id, PAYPAL_ACCOUNT,
+        :amount =&gt; @order.price, :currency =&gt; &#39;EUR&#39;,
+        :service =&gt; :paypal do |service|
+
+    service.customer :first_name =&gt; current_user.name,
+        :last_name =&gt; current_user.surname,
+        :email =&gt; current_user.email
+
+    service.item_name @order.items_summary
+
+    # PayPal will POST a callback here when the payment is done
+    service.notify_url notifications_url(@order)
+    # PayPal will take your user here with a POST after he pays
+    service.return_url paypal_return_notifications_url(@order)
+    # PayPal will redirect your user here if he cancels the payment
+    service.cancel_return_url paypal_cancel_notifications_url(@order) %&gt;
+
+    &lt;%= submit_tag &#39;Pay this order&#39; %&gt;
+&lt;% end %&gt;
+
+
+</code></pre></noscript></div>
+
+<p>If you need to send more info to PayPal take a look at the ActiveMerchant&#39;s doc
+or even at its code, to see which options are accepted by the
+<code>payment_service_for</code> helper. Just FYI, the helper doesn&#39;t support multiple
+items. In case you need it you&#39;ll need to craft your own helper... and maybe
+send a pull request to ActiveMerchant ^^.</p>
+
+<h3>Gather and acknowledge the PayPal response</h3>
+
+<p>PayPal will send you a notification so you can know when the order is paid.
+This following code is a sample of how this can be done.</p>
+
+<div><script src='https://gist.github.com/792543.js?file=notifications_controller.rb'></script>
+<noscript><pre><code># app/controllers/notifications_controller.rb
+
+class NotificationsController &lt; ApplicationController
+  include ActiveMerchant::Billing::Integrations
+  protect_from_forgery :except =&gt; [:create, :paypal_return] 
+
+  # This action is for when the buyer returns to your site from PayPal
+  def paypal_return
+    flash[:notice] = &quot;Thanks for buying this!&quot;
+    redirect_to root_path
+  end
+
+  # This action is for when the buyer cancels
+  def paypal_cancel
+    flash[:notice] = &quot;We&#39;re sorry you didn&#39;t buy :(&quot;
+    redirect_to root_path
+  end
+
+  # This is what will receive the IPN from PayPal
+  def create
+    # You maybe want to log this notification
+    notify = Paypal::Notification.new request.raw_post
+    @order = Order.unpaid.find(notify.item_id)
+
+    if notify.acknowledge
+      # Make sure you received the expected payment!
+      if notify.complete? and @order.price == BigDecimal.new( params[:mc_gross] )
+        # All your bussiness logic goes here
+        @order.update_attributes(:paid =&gt; true)
+        render :nothing =&gt; true
+      end
+    rescue
+      #Make sure you log the exceptions you have.
+    end
+  end
+end
+</code></pre></noscript></div>
+
+<h2>That&#39;s all folks!</h2>
+
+<p>This is the most simple way I found to make PayPal work with ActiveMerchant.
+However it&#39;s very limited and lacks support for things like multiple items and
+data encryption between your app and PayPal. Unluckly ActiveMerchant lacks
+support for these two things on its PayPal integration. However you can achieve
+this by using something <a href="http://www.fortytwo.gr/blog/14/Using-Paypal-with-Rails">like that</a>.</p>
+
+<p>If you find some stupid thing or some bug here, just let me know so that I can
+fix it :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Paperclip as a gem]]></title>
+    <link href="http://dev.otrobloggeek.com/2010/12/09/paperclip-as-a-gem.html"/>
+    <updated>2010-12-09T00:00:00+01:00</updated>
+    <id>http://dev.otrobloggeek.com/2010/12/09/paperclip-as-a-gem</id>
+    <content type="html"><![CDATA[<p><strong>Edit 2012-07-04:</strong> You won&#39;t have those problems with latest rails and
+paperclip. As far as I know this only happens with rails 2.</p>
+
+<p>I love <a href="http://github.com/thoughtbot/paperclip">paperclip</a>. To be clear it just
+works. It makes what it has been designed for and makes it easy and flexible
+enough to do some other things.</p>
+
+<p>However, there&#39;s something with paperclip that always disappoints me, it have
+some problems when you want to install it as a gem, and, in my case, when you
+want to use it with <a href="http://gembundler.com">bundler</a>.</p>
+
+<p>The problem is that it doesn&#39;t load the rake tasks nor the should macros.
+Shoulda macros are loaded without problem if the gem is vendored in the project
+dir, since shoulda will look for it. But to load the macros when not vendored
+you need the following code on your <code>test_helper.rb</code> just before <code>class ActiveSupport::TestCase</code>.</p>
+
+<div><script src='https://gist.github.com/734635.js'></script>
+<noscript><pre><code>require File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;shoulda_macros&#39;, &#39;paperclip.rb&#39;))
+
+class ActiveSupport::TestCase
+# ... 
+# here comes your custom test options
+end</code></pre></noscript></div>
+
+<p>That way the macros are properly load and you can use them on your tests.</p>
+
+<p>To load the rake tasks you need a similar approach. Just include this line in
+your Rakefile. If you&#39;re using Rails 3 it will properly load automatically the
+rake tasks for you so no need for this trick.</p>
+
+<div><script src='https://gist.github.com/734642.js'></script>
+<noscript><pre><code>#Newest versions
+import File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;lib&#39;, &#39;tasks&#39;, &#39;paperclip.rake&#39;))
+# Versions older than 2.3.2
+import File.expand_path(File.join(Gem.datadir(&#39;paperclip&#39;), &#39;..&#39;, &#39;..&#39;, &#39;tasks&#39;, &#39;paperclip_tasks.rake&#39;))</code></pre></noscript></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to include a flowplayer video inside a fancybox modal window]]></title>
+    <link href="http://dev.otrobloggeek.com/2010/09/10/how-to-include-a-flowplayer-video-inside-a-fancybox-modal-window.html"/>
+    <updated>2010-09-10T00:00:00+02:00</updated>
+    <id>http://dev.otrobloggeek.com/2010/09/10/how-to-include-a-flowplayer-video-inside-a-fancybox-modal-window</id>
+    <content type="html"><![CDATA[<p>Thats how I make to integrate <a href="http://flowplayer.org/">flowplayer</a> inside a
+<a href="http://fancybox.net/">fancybox</a> modal window.</p>
+
+<p>This following code shows a hidden <code>div</code> which will include the video. When
+clicking the &quot;Play video&quot; link it will show a fancybox modal window with the
+flowplayer video inside.</p>
+
+<p>When closing the fancybox it will unload the video player and hide the div.</p>
+
+<div><script src='https://gist.github.com/571643.js'></script>
+<noscript><pre><code>&lt;!-- Don&#39;t forget to include flowplayer js and fancybox js and css --&gt;
+
+&lt;div style=&quot;width:665px;height:480px;display:none;&quot; id=&quot;player&quot;&gt;
+&lt;/div&gt;
+
+&lt;a id=&quot;play-flv-video&quot; href=&quot;#player&quot;&gt;Play video&lt;/a&gt;
+
+&lt;script language=&quot;JavaScript&quot;&gt;
+$(document).ready(function() {
+     $(&quot;a#play-flv-video&quot;).fancybox({
+         &#39;scrolling&#39;: false,
+         &#39;titleShow&#39;: false,
+         &#39;padding&#39;  : 0,
+         &#39;onStart&#39;  : function() {
+             $(&quot;#player&quot;).show();
+             $f(&quot;player&quot;,
+                     &quot;/swf/flowplayer-3.2.3.swf&quot;,
+                     &quot;/video/myvideo.flv&quot;);
+         },
+         &#39;onClosed&#39;  : function() {
+             $(&quot;#player&quot;).hide();
+             $f().unload();
+         }
+     });
+ });
+&lt;/script&gt;</code></pre></noscript></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to make Passenger 2.2.15 work with Bundler 0.8.1]]></title>
+    <link href="http://dev.otrobloggeek.com/2010/09/07/make-passenger-2.2.15-work-with-bundler-0.8.1.html"/>
+    <updated>2010-09-07T00:00:00+02:00</updated>
+    <id>http://dev.otrobloggeek.com/2010/09/07/make-passenger-2.2.15-work-with-bundler-0.8.1</id>
+    <content type="html"><![CDATA[<p><strong>Edit 2012-07-03:</strong> If you have the same problems... Try to switch to a better
+solution like <a href="http://pow.cx">Pow</a>.</p>
+
+<p>From now I&#39;m using Passenger with Apache and <a href="http://github.com/alloy/passengerpane">Passenger Pane</a> in my development environment. The
+only problem is that in most cases we&#39;re using Bundler 0.8.1 in production,
+which is old and deprecated. To keep my dev environment similar to the
+production one I just use 0.8.1 in my dev machine.</p>
+
+<p>To make them work together you just have to add the empty file
+<code>config/setup_load_paths.rb</code> to your application. This file will be required
+before Passenger loads you gems as an alternative way to loading those gems...
+and it will just do nothing. You can get more info
+<a href="http://www.modrails.com/documentation/Users%20guide%20Apache.html#bundler_support">here</a>
+Once this is done your application will just work :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to handle CMYK images with Paperclip]]></title>
+    <link href="http://dev.otrobloggeek.com/2010/09/06/how-to-handle-cmyk-images-with-paperclip.html"/>
+    <updated>2010-09-06T00:00:00+02:00</updated>
+    <id>http://dev.otrobloggeek.com/2010/09/06/how-to-handle-cmyk-images-with-paperclip</id>
+    <content type="html"><![CDATA[<p><strong>Update April 24th 2014</strong>: This is quite old and might not work with
+  the current version of paperclip.</p>
+
+<p>In the last project I&#39;ve worked I found myself reviewing the application again
+and again on Internet Explorer since suddenly some images started showing a
+beautiful &quot;not-found-red-cross&quot;.</p>
+
+<p>After some research I found some blogs telling that Internet Explorer doesn&#39;t
+support images with a CMYK color scheme (<a href="http://www.plaveb.com/blog/cmyk-images-not-displayed-in-internet-explorer">like this one</a>).</p>
+
+<p>Since I&#39;m using <a href="http://github.com/thoughtbot/paperclip">Paperclip</a> to handle
+the uploads to the application it wasn&#39;t difficult to find a way to solve this.
+That&#39;s what I did:</p>
+
+<div><script src='https://gist.github.com/566895.js'></script>
+<noscript><pre><code>class User &lt; ActiveRecord::Base
+
+  has_attached_file :avatar,
+                    :styles =&gt; { :thumbnail =&gt; &quot;80x80&gt;&quot;, :normalized =&gt; &quot;100%&quot; },
+                    :convert_options =&gt; { :all =&gt; &#39;-strip -colorspace RGB&#39;},
+                    :default_style =&gt; :normalized
+
+end</code></pre></noscript></div>
+
+<p>As you can see I define a &quot;normalized&quot; style which doesn&#39;t change geometry,
+however it&#39;s used to apply the color scheme conversion. Since it&#39;s the default
+style you can use it like <code>current_user.avatar.url</code> without worrying about the
+style.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[From Mac Ports to Homebrew]]></title>
+    <link href="http://dev.otrobloggeek.com/2010/07/04/from-ports-to-homebrew.html"/>
+    <updated>2010-07-04T00:00:00+02:00</updated>
+    <id>http://dev.otrobloggeek.com/2010/07/04/from-ports-to-homebrew</id>
+    <content type="html"><![CDATA[<p><strong>Update: April 24th 2014</strong>: I no longer use mac, so this might be very outdated.</p>
+
+<p>I&#39;ve lately moved from <a href="http://www.macports.org/">Mac Ports</a> to
+<a href="http://github.com/mxcl/homebrew">Homebrew</a>. I find Homebrew an easier and more
+intuitive system than Mac Ports and it gives me the option to customize the
+installations.</p>
+
+<p>Homebrew is composed of a set of &quot;formulas&quot; with the instructions to compile
+and install pieces of software, like ImageMagick or ffmpeg. Each one of these
+formulas can be customized to make it suit your needs in an easy way. This is
+an example formula from their web site.</p>
+
+<div><script src='https://gist.github.com/1128169.js'></script>
+<noscript><pre><code>require &#39;formula&#39;
+
+class Wget &lt; Formula
+  homepage &#39;http://www.gnu.org/wget/&#39;
+  url &#39;http://ftp.gnu.org/wget-1.12.tar.gz&#39;
+  md5 &#39;308a5476fc096a8a525d07279a6f6aa3&#39;
+
+  def install
+    system &quot;./configure --prefix=#{prefix}&quot;
+    system &#39;make install&#39;
+  end
+end
+</code></pre></noscript></div>
+
+<p>As you see, plain Ruby, easy to customize :)</p>
+
+<p>To install it the first step for me was to remove Mac Ports, the <a href="http://guide.macports.org/chunked/installing.macports.uninstalling.html">instructions are on its homepage</a>.
+After this is quite easy to install Homebrew just following the instructions on
+<a href="http://wiki.github.com/mxcl/homebrew/installation">it&#39;s homepage</a>.</p>
+
+<p>Once it&#39;s done, you can install something as easy as.</p>
+
+<p><code>brew install imagemagick</code></p>
+
+<p>In fact I needed imagemagick just to <a href="http://rmagick.rubyforge.org/install-faq.html">install rmagick</a> gem, which have this
+library as a dependency.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Avoid using eval() on Javascript]]></title>
+    <link href="http://dev.otrobloggeek.com/2010/06/29/avoid-using-eval-on-javascript.html"/>
+    <updated>2010-06-29T20:02:00+02:00</updated>
+    <id>http://dev.otrobloggeek.com/2010/06/29/avoid-using-eval-on-javascript</id>
+    <content type="html"><![CDATA[<p>Javascript&#39;s eval() function is evil. It&#39;s performance is bad, and it&#39;s very
+difficult to debug. If you ever use it the <a href="http://xkcd.com/292/">goto raptor</a>
+will come for you...</p>
+
+<p>OK, now I know why not to use <code>eval()</code> but... How could I avoid that evil
+function in my code?</p>
+
+<p>The 3 main uses I&#39;ve found for <code>eval()</code> are:</p>
+
+<ul>
+<li>Assign a property to an object when you have its name calculated in a
+variable</li>
+<li>Call a function when you&#39;ve it&#39;s name calculated in a variable</li>
+<li>Create an object from a class when you&#39;ve it&#39;s name calculated in a variable</li>
+</ul>
+
+<p>To sum up, <strong>do any access of any kind to any object&#39;s property when you&#39;ve this
+property name in a variable</strong>. This kind of access can be accomplished using
+this notation.</p>
+
+<div><script src='https://gist.github.com/1128154.js?file=sample1.js'></script>
+<noscript><pre><code>var property = &quot;property_name&quot;;
+var object = new Object()
+alert(object[property]) //will alert object.property_name
+alert(object[&quot;property_name&quot;]); //will alert object.property_name
+alert(window[&quot;object&quot;][&quot;property_name&quot;]) //will alert object.property_name</code></pre></noscript></div>
+
+<p>If you don&#39;t believe it, just copy&amp;paste the previous code on Firebug and see
+how it works.</p>
+
+<p>So, let&#39;s now see an example on the previous cases</p>
+
+<div><script src='https://gist.github.com/1128154.js?file=sample2.js'></script>
+<noscript><pre><code>//assign a property to an object when
+//you have its name calculated in a variable
+var property_name = &quot;a_great_property&quot;
+var object = new Object();
+object[property_name] = &quot;Hello world!&quot;;
+alert(object.property_name); //will alert Hello world!
+
+//call a function when you’ve it’s name
+//calculated in a variable
+var function_name = &quot;whatever_function&quot;;
+var object = {
+  whatever_function: function(){
+    alert(&quot;Hello world!&quot;);
+  }
+}
+object[function_name_](); // will alert Hello world!
+
+//create an object from a class when
+//you&#39;ve it&#39;s name calculated in a variable
+var klass_name = &quot;Object&quot;;
+var object = new window[klass_name];
+</code></pre></noscript></div>
+
+<p>Those were just a couple of basic examples that I could remember, but I&#39;m quite
+sure that there are much more other evil uses of <code>eval()</code> out there that you
+can destroy :D</p>
+]]></content>
+  </entry>
+  
+</feed>
