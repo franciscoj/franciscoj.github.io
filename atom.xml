@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='utf-8'?>
-<feed xmlns='http://www.w3.org/2005/Atom'>
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
   <title><![CDATA[I write code]]></title>
-  <link href='http://dev.otrobloggeek.com/atom.xml' rel='self'/>
+  <link href="http://dev.otrobloggeek.com/atom.xml" rel="self"/>
   <link href="http://dev.otrobloggeek.com/"/>
-  <updated>2016-05-09T19:59:26+02:00</updated>
+  <updated>2016-12-23T11:24:09+01:00</updated>
   <id>http://dev.otrobloggeek.com/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -11,48 +11,37 @@
   </author>
   
 <entry>
-  <title type="html"><![CDATA[Ruby ivar vs attr_reader]]></title>
-  <link href="http://dev.otrobloggeek.com/2016/05/09/ruby-ivar-vs-reader.html"/>
-  <updated>2016-05-09T19:32:00+02:00</updated>
-  <id>http://dev.otrobloggeek.com/2016/05/09/ruby-ivar-vs-reader</id>
-  <content type="html"><![CDATA[<h2>Ruby: ivar vs readers</h2>
+  <title type="html"><![CDATA[Move files in vim with netrw]]></title>
+  <link href="http://dev.otrobloggeek.com/2016/12/23/move-files-with-netrw.html"/>
+  <updated>2016-12-23T11:11:00+01:00</updated>
+  <id>http://dev.otrobloggeek.com/2016/12/23/move-files-with-netrw</id>
+  <content type="html"><![CDATA[<p>After some time with emacs I&#39;m back to Vim. This time I&#39;m using <a href="https://neovim.io/">Neovim</a>
+to see what it has to offer.</p>
 
-<p>Spoiler alert: Readers win.</p>
+<p>One thing that I found myself trying to do a couple of days ago was to try to
+move a set of files into a different folder from inside netrw (which is the file
+explorer for Vim). Renaming each file one by one was not an option, so I digged
+a bit on the Vim&#39;s help to see what could I find.</p>
 
-<ol>
-<li>You don&#39;t rely on the instance state.</li>
-<li>You&#39;ve better protection againt typos. <code>@ivar</code> might not exist and nothing
-will fail <code>ivar</code> will complain.</li>
-<li>They&#39;re easier to mock in specs in case you need to.</li>
-<li>They properly wrap the state so that refactors are easier.</li>
-<li>They can be aliased.</li>
-<li>They can be <code>alias_method_chain</code>ed.</li>
-<li>No kittens will die.</li>
-<li>You can properly set their accessibility.</li>
-</ol>
-
-<h2>When should I use ivars?</h2>
+<p>It turns out netrw has a <code>move</code> comand which you can invoke on a set of selected
+files by using <code>mm</code>... the problem is that it needs quite some setup for it to
+work and it took me some time to realize how to do it:</p>
 
 <ol>
-<li>When setting things on the constructor.</li>
-<li>When memoizing stuff (and be careful).</li>
+<li>Find the destination folder on netrw and mark it with <code>mt</code> this will set it
+as the target of the move.</li>
+<li>Find the files you want to move and mark each one of them with <code>mf</code>.</li>
+<li>Tell netrw that the original file&#39;s folder is the current folder with <code>:cd</code></li>
+<li>In netrw use <code>mm</code> in any of the marked files.</li>
 </ol>
 
-<h2>When NOT to use ivars?</h2>
+<p>That would move the files to where you want. You can check the help in vim
+itself with <code>:h netrw-mm</code> but it doesn&#39;t tell you about the <code>:cd</code> part, which is
+the one I was missing and was failing with a strange message about not being
+able to move the files.</p>
 
-<ol>
-<li>To pass data from a method to another.</li>
-<li>To store stuff inside the same method.</li>
-</ol>
-
-<h2>What??? But I don&#39;t do it like that!!!</h2>
-
-<p>Up to you. There are not rules written on stone or anyting but they work, and
-they do it well. It is not a matter of taste.</p>
-
-<p>From my own little experience the more you isolate yourself from the class state
-the easier it will be to change the class when you need to. In codebases which
-change a lot, this introduces a very good advantage in your favor.</p>
+<p>Honestly, too hard to be comfortable at all. I also don&#39;t think this works with
+files from different folders.</p>
 ]]></content>
 </entry>
 

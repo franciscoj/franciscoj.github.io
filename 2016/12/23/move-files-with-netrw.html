@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Ruby ivar vs attr_reader</title>
+    <title>Move files in vim with netrw</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/stylesheets/styles.css">
@@ -30,68 +30,57 @@
 <div class="post panel panel-default">
     <div class="post-title panel-heading">
         
-        <h2><a href="/2016/05/09/ruby-ivar-vs-reader.html">Ruby ivar vs attr_reader</a></h2>
+        <h2><a href="/2016/12/23/move-files-with-netrw.html">Move files in vim with netrw</a></h2>
         
     </div>
     <div class="post-metas panel-body">
         <span class="glyphicon glyphicon-calendar"></span>
-09 May 2016
+23 Dec 2016
 
 <span class="glyphicon glyphicon-tags"></span>
 &nbsp;
 
 <span class="label label-info">
-    ruby
+    vim
 </span>
 &nbsp;
 
 
 <span class="glyphicon glyphicon-comment"></span>
-<a href="http://dev.otrobloggeek.com/2016/05/09/ruby-ivar-vs-reader.html#disqus_thread">Comments</a>
+<a href="http://dev.otrobloggeek.com/2016/12/23/move-files-with-netrw.html#disqus_thread">Comments</a>
 
     </div>
 </div>
 
 
 <div class="post">
-    <h2>Ruby: ivar vs readers</h2>
+    <p>After some time with emacs I&#39;m back to Vim. This time I&#39;m using <a href="https://neovim.io/">Neovim</a>
+to see what it has to offer.</p>
 
-<p>Spoiler alert: Readers win.</p>
+<p>One thing that I found myself trying to do a couple of days ago was to try to
+move a set of files into a different folder from inside netrw (which is the file
+explorer for Vim). Renaming each file one by one was not an option, so I digged
+a bit on the Vim&#39;s help to see what could I find.</p>
 
-<ol>
-<li>You don&#39;t rely on the instance state.</li>
-<li>You&#39;ve better protection againt typos. <code>@ivar</code> might not exist and nothing
-will fail <code>ivar</code> will complain.</li>
-<li>They&#39;re easier to mock in specs in case you need to.</li>
-<li>They properly wrap the state so that refactors are easier.</li>
-<li>They can be aliased.</li>
-<li>They can be <code>alias_method_chain</code>ed.</li>
-<li>No kittens will die.</li>
-<li>You can properly set their accessibility.</li>
-</ol>
-
-<h2>When should I use ivars?</h2>
+<p>It turns out netrw has a <code>move</code> comand which you can invoke on a set of selected
+files by using <code>mm</code>... the problem is that it needs quite some setup for it to
+work and it took me some time to realize how to do it:</p>
 
 <ol>
-<li>When setting things on the constructor.</li>
-<li>When memoizing stuff (and be careful).</li>
+<li>Find the destination folder on netrw and mark it with <code>mt</code> this will set it
+as the target of the move.</li>
+<li>Find the files you want to move and mark each one of them with <code>mf</code>.</li>
+<li>Tell netrw that the original file&#39;s folder is the current folder with <code>:cd</code></li>
+<li>In netrw use <code>mm</code> in any of the marked files.</li>
 </ol>
 
-<h2>When NOT to use ivars?</h2>
+<p>That would move the files to where you want. You can check the help in vim
+itself with <code>:h netrw-mm</code> but it doesn&#39;t tell you about the <code>:cd</code> part, which is
+the one I was missing and was failing with a strange message about not being
+able to move the files.</p>
 
-<ol>
-<li>To pass data from a method to another.</li>
-<li>To store stuff inside the same method.</li>
-</ol>
-
-<h2>What??? But I don&#39;t do it like that!!!</h2>
-
-<p>Up to you. There are not rules written on stone or anyting but they work, and
-they do it well. It is not a matter of taste.</p>
-
-<p>From my own little experience the more you isolate yourself from the class state
-the easier it will be to change the class when you need to. In codebases which
-change a lot, this introduces a very good advantage in your favor.</p>
+<p>Honestly, too hard to be comfortable at all. I also don&#39;t think this works with
+files from different folders.</p>
 
 </div>
 
@@ -100,8 +89,8 @@ change a lot, this introduces a very good advantage in your favor.</p>
 <script type="text/javascript">
  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
  var disqus_shortname = 'franciscoj';
- var disqus_url = 'http://dev.otrobloggeek.com/2016/05/09/ruby-ivar-vs-reader.html';
- var disqus_identifier = 'http://dev.otrobloggeek.com/2016/05/09/ruby-ivar-vs-reader.html';
+ var disqus_url = 'http://dev.otrobloggeek.com/2016/12/23/move-files-with-netrw.html';
+ var disqus_identifier = 'http://dev.otrobloggeek.com/2016/12/23/move-files-with-netrw.html';
 
  /* * * DON'T EDIT BELOW THIS LINE * * */
  (function() {
