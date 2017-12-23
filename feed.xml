@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="https://dev.otrobloggek.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dev.otrobloggek.com/" rel="alternate" type="text/html" /><updated>2017-12-23T11:17:19+01:00</updated><id>https://dev.otrobloggek.com/</id><title type="html">I write code</title><subtitle>This is just me coding</subtitle><entry><title type="html">Move files with netrw</title><link href="https://dev.otrobloggek.com/vim/2016/12/23/move-files-with-netrw.html" rel="alternate" type="text/html" title="Move files with netrw" /><published>2016-12-23T20:25:00+01:00</published><updated>2016-12-23T20:25:00+01:00</updated><id>https://dev.otrobloggek.com/vim/2016/12/23/move-files-with-netrw</id><content type="html" xml:base="https://dev.otrobloggek.com/vim/2016/12/23/move-files-with-netrw.html">&lt;p&gt;After some time with emacs I’m back to Vim. This time I’m using
+&lt;a href=&quot;https://neovim.io&quot;&gt;Neovim&lt;/a&gt; to see what it has to offer.&lt;/p&gt;
+
+&lt;p&gt;One thing that I found myself trying to do a couple of days ago was to try to
+move a set of files into a different folder from inside netrw (which is the file
+explorer for Vim). Renaming each file one by one was not an option, so I digged
+a bit on the Vim’s help to see what could I find.&lt;/p&gt;
+
+&lt;p&gt;It turns out netrw has a &lt;code class=&quot;highlighter-rouge&quot;&gt;move&lt;/code&gt; comand which you can invoke on a set of
+selected files by using &lt;code class=&quot;highlighter-rouge&quot;&gt;mm&lt;/code&gt;… problem is that it needs quite some setup for
+it to work and it took me some time to realize how to do it:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Find the destination folder on netrw and mark it with &lt;code class=&quot;highlighter-rouge&quot;&gt;mt&lt;/code&gt; this will set it
+as the target of the move.&lt;/li&gt;
+  &lt;li&gt;Find the files you want to move and mark each one of them with
+&lt;code class=&quot;highlighter-rouge&quot;&gt;mf&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Tell netrw that the original file’s folder is the current folder with
+&lt;code class=&quot;highlighter-rouge&quot;&gt;:cd&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;In netrw use &lt;code class=&quot;highlighter-rouge&quot;&gt;mm&lt;/code&gt; in any of the marked files.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;That would move the files to where you want. You can check the help in Vim
+itself with &lt;code class=&quot;highlighter-rouge&quot;&gt;:h netrw-mm&lt;/code&gt; but it doesn’t tell you about the &lt;code class=&quot;highlighter-rouge&quot;&gt;:cd&lt;/code&gt; part, which
+is the one I was missing and was failing with a strange message about not being
+able to move the files.&lt;/p&gt;
+
+&lt;p&gt;Honestly, too hard to be comfortable at all. I also don’t think this works with
+files from different folders.&lt;/p&gt;</content><author><name></name></author><summary type="html">After some time with emacs I’m back to Vim. This time I’m using Neovim to see what it has to offer.</summary></entry><entry><title type="html">My emacs setup</title><link href="https://dev.otrobloggek.com/emacs/spacemacs/2016/03/08/my-emacs-setup.html" rel="alternate" type="text/html" title="My emacs setup" /><published>2016-03-08T20:25:00+01:00</published><updated>2016-03-08T20:25:00+01:00</updated><id>https://dev.otrobloggek.com/emacs/spacemacs/2016/03/08/my-emacs-setup</id><content type="html" xml:base="https://dev.otrobloggek.com/emacs/spacemacs/2016/03/08/my-emacs-setup.html">&lt;p&gt;I moved to emacs some time ago. Before using it I was a Vim user and after using
+it for quite a long time I decided to try emacs to see what it had to offer.&lt;/p&gt;
+
+&lt;p&gt;I started by using &lt;a href=&quot;https://github.com/bbatsov/prelude&quot;&gt;prelude&lt;/a&gt; it worked
+pretty well and I was pretty happy with it. The only problem I found on it is
+that I missed modal edition too much. So, after some time with prelude I moved
+to &lt;a href=&quot;http://spacemacs.org/&quot;&gt;Spacemacs&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Spacemacs puts together emacs with a quite sane configuration for
+&lt;a href=&quot;https://www.emacswiki.org/emacs/Evil&quot;&gt;evil&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;It works pretty well, if you’re a Vim user and you’re thinking on trying emacs
+this is a good way to move. If after some time you don’t want to use the modal
+edition anymore you can configure it to work the “emacs way” and it will work as
+well as with evil. I’m not going to explain all the cool things on Spacemcas,
+for that you can just check their page and amazing documentation, it explains
+everything pretty well.&lt;/p&gt;
+
+&lt;p&gt;I’ve very little customizations for emacs, I mostly use the spacemacs’ default
+config expcept for some stuff:&lt;/p&gt;
+
+&lt;h2 id=&quot;emacs-as-daemon&quot;&gt;Emacs as daemon&lt;/h2&gt;
+
+&lt;p&gt;Starting spacemacs takes a bit of time, so the best way to have it working is to
+start emacs as a daemon and then using the &lt;code class=&quot;highlighter-rouge&quot;&gt;emacsclient&lt;/code&gt; command to connect to
+it.&lt;/p&gt;
+
+&lt;p&gt;By default, starting spacemcas starts it as a daemon but sometimes I found
+myself starting Spacemacs from the desktop environment and then connecting to it
+for small editions like quick git commits. Right now I use
+&lt;a href=&quot;https://www.archlinux.org/&quot;&gt;Arch Linux&lt;/a&gt; on my development machine so I started
+playing with &lt;a href=&quot;https://wiki.archlinux.org/index.php/systemd&quot;&gt;systemd&lt;/a&gt; to start it
+for me. It turned out to be a very quick win. One good thing with arch and
+systemd is that you can set up systemd to have user managed unit files (not
+started by root). To do so you just have to create the unit on
+&lt;code class=&quot;highlighter-rouge&quot;&gt;~/.config/systemd/user/emacs.service&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This is the one I use for spacemacs:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/7a15ebbd161c8a639dbe.js&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;[Unit]
+Description=Emacs daemon
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/emacs --daemon
+ExecStop=/usr/bin/emacsclient --eval &amp;quot;(kill-emacs)&amp;quot;
+Restart=always
+
+[Install]
+WantedBy=default.target&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;After adding the file just do:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;emacs &lt;span class=&quot;c&quot;&gt;# to make it start with the machine&lt;/span&gt;
+systemctl &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; start emacs &lt;span class=&quot;c&quot;&gt;# to start it right away&lt;/span&gt;
+systemctl &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; stop emacs &lt;span class=&quot;c&quot;&gt;# to stop the daemon&lt;/span&gt;
+systemctl &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; restart emacs &lt;span class=&quot;c&quot;&gt;# to restart the daemon&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connect-to-emacs-daemon-from-the-terminal&quot;&gt;Connect to emacs daemon from the terminal&lt;/h2&gt;
+
+&lt;p&gt;Now, to connect into your emacs daemon you just have to do &lt;code class=&quot;highlighter-rouge&quot;&gt;emacsclient -t&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I usually set it as my default editor with this on my zshrc:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;EDITOR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;emacsclient -t&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;and then I set an alias for it:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$EDITOR&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, when I want to edit a file I just do: &lt;code class=&quot;highlighter-rouge&quot;&gt;e filename.ext&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;connect-to-emacs-daemon-from-the-desktop-environment&quot;&gt;Connect to emacs daemon from the desktop environment&lt;/h2&gt;
+
+&lt;p&gt;That’s pretty cool for quick edits in the terminal, but most of the times I work
+on an emacs window on my desktop environment. I wanted to be able to connect to
+the daemon too, so I ended up adding this to
+&lt;code class=&quot;highlighter-rouge&quot;&gt;~/.local/share/applications/spacemacs.desktop&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/8b86895de284d9548012.js&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;[Desktop Entry]
+Name=Spacemacs
+GenericName=Text Editor
+Comment=Edit text
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+Exec=emacsclient -c %F
+Icon=~/.emacs.d/core/banners/img/spacemacs.png
+Type=Application
+Terminal=false
+Categories=Development;TextEditor;
+StartupWMClass=Emacs&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;-c&lt;/code&gt; flag asks emacsclient to create a new frame controlled by the window
+manager. In my case Gnome Shell.&lt;/p&gt;
+
+&lt;h2 id=&quot;emacs-customizations&quot;&gt;Emacs customizations&lt;/h2&gt;
+
+&lt;p&gt;As I said before I almost use “vanilla” spacemacs. Most of its config is good
+enough for everything I do, except for a couple of things.&lt;/p&gt;
+
+&lt;p&gt;All this configs go in the &lt;code class=&quot;highlighter-rouge&quot;&gt;dotspacemcas/user-config()&lt;/code&gt; function on your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.spacemacs&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;word-movement&quot;&gt;Word movement:&lt;/h3&gt;
+
+&lt;p&gt;If you’re a Vim user, you’d expect that moving 1 word in &lt;code class=&quot;highlighter-rouge&quot;&gt;method-name&lt;/code&gt; would
+take you to the last &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt;. This is not the case in emacs. To change it in ruby
+and javascript:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;(add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ &quot;w&quot;)))
+(add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ &quot;w&quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;edit-rabl-files-with-ruby&quot;&gt;Edit rabl files with ruby:&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;;; *.rabl files are ruby
+(add-to-list 'auto-mode-alist '(&quot;\\.rabl&quot; . ruby-mode)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;open-the-project-root-when-selecting-a-project-with-projectile&quot;&gt;Open the project root when selecting a project with projectile&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;;; Go to project root folder when switching to it
+(setq projectile-switch-project-action 'projectile-dired)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;have-a-separate-file-for-the-emacs-customizations&quot;&gt;Have a separate file for the emacs customizations.&lt;/h3&gt;
+
+&lt;p&gt;Emacs has an easy customization mechanism
+&lt;a href=&quot;https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html&quot;&gt;(see)&lt;/a&gt;.
+I don’t use it most of the times, but there’re some times in which emacs stores
+stuff in the &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.spacemacs&lt;/code&gt; file because of it even if you don’t want it. To
+avoid it I use a separate file for this customizations. To do so, add this to
+your &lt;code class=&quot;highlighter-rouge&quot;&gt;dotspacemacs/user-init()&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;(setq custom-file &quot;~/.emacs-custom.el&quot;)
+(load custom-file)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;All customizations will to to &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.emacs-custom.el&lt;/code&gt; instead of your dotspacemacs file.&lt;/p&gt;
+
+&lt;h3 id=&quot;others&quot;&gt;Others&lt;/h3&gt;
+
+&lt;p&gt;I also have other stuff customized, like the layers I load, etc… but not much.
+If you’re curious you can check
+&lt;a href=&quot;https://github.com/franciscoj/dot-files/blob/master/emacs/spacemacs#L1&quot;&gt;my dotspacemacs file&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I’m sure I’m missing something, but this is most of it. Enjoy emacs and good hacking!&lt;/p&gt;</content><author><name></name></author><summary type="html">I moved to emacs some time ago. Before using it I was a Vim user and after using it for quite a long time I decided to try emacs to see what it had to offer.</summary></entry><entry><title type="html">Rock your gitting</title><link href="https://dev.otrobloggek.com/git/2014/04/27/rock-your-gitting.html" rel="alternate" type="text/html" title="Rock your gitting" /><published>2014-04-27T20:00:00+02:00</published><updated>2014-04-27T20:00:00+02:00</updated><id>https://dev.otrobloggek.com/git/2014/04/27/rock-your-gitting</id><content type="html" xml:base="https://dev.otrobloggek.com/git/2014/04/27/rock-your-gitting.html">&lt;p&gt;GIT. What a monster, uh? A tool developers use everyday. Unfortunately
+we don’t always give it as much attention as it needs. Gitting as a
+pro will give you tools enough to make your everyday work as a
+developer easier.&lt;/p&gt;
+
+&lt;p&gt;I’d like to write a series of posts about git. Some tricks and some
+good practices that I apply.&lt;/p&gt;
+
+&lt;h2 id=&quot;i-know-nothing-about-git-where-to-start&quot;&gt;I know nothing about git, where to start?&lt;/h2&gt;
+
+&lt;p&gt;If you are a complete newbie read
+&lt;a href=&quot;http://git-scm.com/book&quot;&gt;the git book&lt;/a&gt; and play with it.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-should-i-do-if-i-have-problems-with-git&quot;&gt;What should I do if I have problems with git?&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Read the manuals. For a given command, you can read the manual with
+&lt;code class=&quot;highlighter-rouge&quot;&gt;git help command&lt;/code&gt;, e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;git help commit&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Read the books. If you want to get a good theoretical understanding
+of git, this is the source,
+&lt;a href=&quot;http://git-scm.com/book&quot;&gt;the git book&lt;/a&gt;. It explains pretty much
+everything about git.&lt;/li&gt;
+  &lt;li&gt;Google. If you are getting into a problem with git and nobody has
+ever had it you are either doing it wrong or a super expert git
+user (and there’s very little help you van find in this blog about
+git).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;git-config-and-basic-tools&quot;&gt;git config and basic tools&lt;/h2&gt;
+
+&lt;p&gt;First step to get into a new level with git is to tune up your
+config. This is pretty much a personal choice and you should take some
+time to understand the config options you have and to test
+them. &lt;a href=&quot;https://github.com/franciscoj/dot-files/blob/master/git/gitconfig&quot;&gt;These&lt;/a&gt;
+are my config choices in case you want to have something as a base.&lt;/p&gt;
+
+&lt;p&gt;Most of the things there are pretty much autoexplained, so I will just
+go through the ones which are not.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[push]
+  default = current
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This prevents you from pushing all your branches if you &lt;code class=&quot;highlighter-rouge&quot;&gt;git push&lt;/code&gt;
+with no other paremeters.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[core]
+  excludesfile = /some/path/.gitignore
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[alias]
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)an&amp;gt;%Creset' --abbrev-commit --date=relative
+  co = checkout
+  s = status --short -b
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git l&lt;/code&gt; will pretty print the log. Pretty easy to have a global view
+of how’s your repo going.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git s&lt;/code&gt; will show the short status. This means that you will have
+something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## master...origin/master
+ D Gemfile
+AM _posts/2013-04-27-rock-your-gitting.markdown
+?? file
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;instead of something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use &quot;git reset HEAD &amp;lt;file&amp;gt;...&quot; to unstage)
+
+        new file:   _posts/2013-04-27-rock-your-gitting.markdown
+
+Changes not staged for commit:
+  (use &quot;git add/rm &amp;lt;file&amp;gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &amp;lt;file&amp;gt;...&quot; to discard changes in working directory)
+
+        deleted:    Gemfile
+        modified:   _posts/2013-04-27-rock-your-gitting.markdown
+
+Untracked files:
+  (use &quot;git add &amp;lt;file&amp;gt;...&quot; to include in what will be committed)
+
+        file
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You still can see the full status with &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;git s&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is a list of global ignores. Which means that they are applied to
+all the files on all your git managed projects. Things like personal
+OrgMode files, notes, todos, personal scripts, .ruby-version
+files… anything you want to use and don’t want to share with your
+coworkers but it is not in the project’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitignore&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are dozens of other config options you can be interested
+in. Have a look to the &lt;code class=&quot;highlighter-rouge&quot;&gt;git config&lt;/code&gt; help.&lt;/p&gt;
+
+&lt;p&gt;Pretty much everybody uses github nowadays one way or another. I’ve
+seen people struggling with getting the keys working many, many
+times. Have a look
+&lt;a href=&quot;https://help.github.com/articles/generating-ssh-keys&quot;&gt;here&lt;/a&gt; on how to
+do it since they explain it very well.&lt;/p&gt;
+
+&lt;p&gt;If you want a good command line tool to help a bit with git (kind of a
+GUI in your terminal) have a look to
+&lt;a href=&quot;https://github.com/jonas/tig&quot;&gt;tig&lt;/a&gt; AFAIK it is included in Ubuntu
+repos and mac’s homebrew as well so it is pretty easy to install.&lt;/p&gt;
+
+&lt;p&gt;There’re are some good helpers in the
+&lt;a href=&quot;https://github.com/visionmedia/git-extras&quot;&gt;git-extras&lt;/a&gt; repo. Special
+mention for &lt;code class=&quot;highlighter-rouge&quot;&gt;git undo&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;git ignore&lt;/code&gt; commands. Those are included
+on Ubuntu and mac’s homebrew as well.&lt;/p&gt;
+
+&lt;p&gt;Give some love to your shell too. Try to find a way to show your
+current git branch and your current git status on your branch. I use
+&lt;a href=&quot;https://github.com/robbyrussell/oh-my-zsh&quot;&gt;oh-my-zsh&lt;/a&gt; with the
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sunrise&lt;/code&gt; theme to get something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gd&quot;&gt;--- src/blog ‹master* AMD?› »
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you use emacs, have a look to
+&lt;a href=&quot;http://magit.github.io/magit.html&quot;&gt;magit&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you use Vim, have a look
+to &lt;a href=&quot;https://github.com/tpope/vim-fugitive&quot;&gt;fugitive&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you use other IDE/editor please add your tool of choice to the
+comments!&lt;/p&gt;
+
+&lt;p&gt;That’s pretty much everything to go from “I annoyingly work with git”
+to “We do understand each other”.&lt;/p&gt;</content><author><name></name></author><summary type="html">GIT. What a monster, uh? A tool developers use everyday. Unfortunately we don’t always give it as much attention as it needs. Gitting as a pro will give you tools enough to make your everyday work as a developer easier.</summary></entry><entry><title type="html">How to use Twitter bootstrap with simple_form</title><link href="https://dev.otrobloggek.com/rails/2011/11/02/how-to-use-twitter-bootstrap-with-simple-form.html" rel="alternate" type="text/html" title="How to use Twitter bootstrap with simple_form" /><published>2011-11-02T00:00:00+01:00</published><updated>2011-11-02T00:00:00+01:00</updated><id>https://dev.otrobloggek.com/rails/2011/11/02/how-to-use-twitter-bootstrap-with-simple-form</id><content type="html" xml:base="https://dev.otrobloggek.com/rails/2011/11/02/how-to-use-twitter-bootstrap-with-simple-form.html">&lt;p&gt;&lt;strong&gt;Edit April 24th 2014&lt;/strong&gt;: This is too old to be still
+  relevant. There’s even new versions of bootstrap, so don’t trust the
+  content in this article.
+&lt;strong&gt;Edit 2012-07-03&lt;/strong&gt;: As you can see in the comments, simple_form has
+  build it support for bootstrap. And built in a much better way than
+  this. Check the
+  &lt;a href=&quot;https://github.com/plataformatec/simple_form/wiki/Twitter-Bootstrap-v2-and-simple_form-v2&quot;&gt;wiki&lt;/a&gt;
+  to see how to make it work.&lt;/p&gt;
+
+&lt;p&gt;I &lt;a href=&quot;http://twitter.github.com/bootstrap/&quot;&gt;Twitter’s bootstrap&lt;/a&gt;. It’s
+easy to use and perfect to start your new applications with a good
+result. It provides some basic CSS tools like a grid system together
+with some other fancy things.&lt;/p&gt;
+
+&lt;p&gt;However it has a small problem. You cannot make it work with a Rails
+application out of the box. Don’t worry, it’s not a big problem. You
+can make it work with just a bit of hacking here and there.&lt;/p&gt;
+
+&lt;p&gt;This are the minimum config options that I’ve found that you need on
+simple_form to have it working with bootstrap so that it applies the
+right classes. On fields and wrappers.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/1334203.js?file=simple_form.rb&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# config/initializer/simple_form.rb
+
+SimpleForm.setup do |config|
+  config.hint_class = &amp;quot;hint input&amp;quot;
+  config.error_class = &amp;#39;error input&amp;#39;
+  config.wrapper_class = :clearfix
+  config.wrapper_error_class = :error
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;We’re almost there… there’s one more step needed. Bootstrap uses an
+extra div container around each input field. I’m afraid I couldn’t
+find any way to add this extra wrapper with simple_form, so I ended up
+with this patch.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/1334203.js?file=simple_form_bootstrap.rb&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# config/initializer/simple_form_bootstrap.rb
+
+SimpleForm::Inputs.constants.each do |klazz|
+  next if klazz == :Base
+  &amp;quot;SimpleForm::Inputs::#{klazz.to_s}&amp;quot;.constantize.class_eval do
+    def input_with_surrounding_div
+      @builder.template.content_tag :div, input_without_surrounding_div, :class =&amp;gt; &amp;quot;input&amp;quot;
+    end
+    alias_method_chain :input, :surrounding_div
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;So far it works well, we couldn’t find any caveats yet… but if you do,
+or if you find a better way to integrate these pieces of amazing soft,
+please let me know!&lt;/p&gt;</content><author><name></name></author><summary type="html">Edit April 24th 2014: This is too old to be still relevant. There’s even new versions of bootstrap, so don’t trust the content in this article. Edit 2012-07-03: As you can see in the comments, simple_form has build it support for bootstrap. And built in a much better way than this. Check the wiki to see how to make it work.</summary></entry><entry><title type="html">Rails debug with passenger</title><link href="https://dev.otrobloggek.com/ruby/2011/03/27/rails-debug-with-passenger.html" rel="alternate" type="text/html" title="Rails debug with passenger" /><published>2011-03-27T00:00:00+01:00</published><updated>2011-03-27T00:00:00+01:00</updated><id>https://dev.otrobloggek.com/ruby/2011/03/27/rails-debug-with-passenger</id><content type="html" xml:base="https://dev.otrobloggek.com/ruby/2011/03/27/rails-debug-with-passenger.html">&lt;p&gt;&lt;strong&gt;Edit 2012-07-05:&lt;/strong&gt; You can now install &lt;code class=&quot;highlighter-rouge&quot;&gt;rack-debug&lt;/code&gt; in a much more easy way by
+using my &lt;a href=&quot;http://github.com/Zorros/debugger-rails&quot;&gt;debugger-rails&lt;/a&gt; gem.&lt;/p&gt;
+
+&lt;h2 id=&quot;without-passenger&quot;&gt;Without Passenger&lt;/h2&gt;
+
+&lt;p&gt;In my last post we learned &lt;a href=&quot;http://dev.otrobloggeek.com/2011/03/26/ruby-debug.html&quot;&gt;how to debug ruby scripts&lt;/a&gt;. It can be done
+as well with a rails application, you just have to start it with &lt;code class=&quot;highlighter-rouge&quot;&gt;script/server
+-u&lt;/code&gt;. The &lt;code class=&quot;highlighter-rouge&quot;&gt;-u&lt;/code&gt; means to start on debug mode. Just make sure you have the
+&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby-debug&lt;/code&gt; gem installed.&lt;/p&gt;
+
+&lt;h2 id=&quot;with-passenger&quot;&gt;With Passenger&lt;/h2&gt;
+
+&lt;p&gt;That works amazing… unless you use Passenger on development. If you do, then
+you’ll need a different way to run the debugger. Don’t panic, it’s quite easy,
+thanks to the &lt;a href=&quot;http://github.com/ddollar/rack-debug&quot;&gt;rack-debug&lt;/a&gt; gem.
+Rack::Debug is a gem which provides an easy interface to &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby-debug&lt;/code&gt; for
+applications running on Passenger. And the good thing about it is that… it
+just works!&lt;/p&gt;
+
+&lt;p&gt;To use it, just add the &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby-debug&lt;/code&gt; gem to your Gemfile, make sure to use the
+&lt;a href=&quot;http://github.com/ddollar/rack-debug/tree/stable-1.4&quot;&gt;1.4.x version&lt;/a&gt; if you’re
+running ruby 1.8.x, since the new &lt;a href=&quot;http://github.com/ddollar/rack-debug&quot;&gt;2.x version&lt;/a&gt; is prepared for ruby 1.9.2.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/889606.js?file=Gemfile&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# Gemfile
+
+# For ruby 1.8
+gem &amp;quot;rack-debug&amp;quot;, &amp;quot;~&amp;gt; 1.4&amp;quot;, :group =&amp;gt; :development
+# For ruby 1.9.2
+gem &amp;quot;rack-debug&amp;quot;, :group =&amp;gt; :development&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that your gem is installed, add the middleware to Rails.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/889606.js?file=development.rb&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# config/environments/development.rb
+
+require &amp;quot;rack/debug&amp;quot;
+config.middleware.use &amp;quot;Rack::Debug&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;And the helper rake tasks.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/889606.js?file=Rakefile&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# Rakefile
+
+require &amp;#39;rack-debug/tasks&amp;#39; if Rails.env.development?&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you can just add a &lt;code class=&quot;highlighter-rouge&quot;&gt;debugger&lt;/code&gt; statement on any line on your application,
+restart it and run &lt;code class=&quot;highlighter-rouge&quot;&gt;rake debug&lt;/code&gt; so that the Rack::Debug gem connects to the
+debugger. Easy, eh?&lt;/p&gt;
+
+&lt;p&gt;Enjoy the debugging!&lt;/p&gt;</content><author><name></name></author><summary type="html">Edit 2012-07-05: You can now install rack-debug in a much more easy way by using my debugger-rails gem.</summary></entry><entry><title type="html">How to debug a ruby script</title><link href="https://dev.otrobloggek.com/ruby/2011/03/26/ruby-debug.html" rel="alternate" type="text/html" title="How to debug a ruby script" /><published>2011-03-26T00:00:00+01:00</published><updated>2011-03-26T00:00:00+01:00</updated><id>https://dev.otrobloggek.com/ruby/2011/03/26/ruby-debug</id><content type="html" xml:base="https://dev.otrobloggek.com/ruby/2011/03/26/ruby-debug.html">&lt;p&gt;Debugging r00lz. Maybe you’re trying to find an elusive bug or how that
+spaghetti piece of code works, in any case is a quite powerful tool and you
+should add it to your day to day job.&lt;/p&gt;
+
+&lt;p&gt;Debugging in ruby is easy… and you don’t even need a GUI for it! Ruby has the
+amazing &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby-debug&lt;/code&gt; gem. That gem provides an executable to debug your ruby
+software. There’re versions for ruby 1.8.x and ruby 1.9.x. I will explain here
+how to install and use the version for ruby 1.8, but ruby 1.9 version is quite
+similar.&lt;/p&gt;
+
+&lt;p&gt;First install the gem with &lt;code class=&quot;highlighter-rouge&quot;&gt;gem install ruby-debug&lt;/code&gt;. This will give you an
+executable called &lt;code class=&quot;highlighter-rouge&quot;&gt;rdebug&lt;/code&gt; which executes the ruby interpreter in debug mode
+allowing you to debug your script.&lt;/p&gt;
+
+&lt;p&gt;I will use this small script to debug.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/889122.js?file=small_script.rb&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;dude = true
+
+if dude
+  puts &amp;quot;Hey dude&amp;quot;
+else
+  puts &amp;quot;Hello world&amp;quot;
+end&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can just run the debugger with &lt;code class=&quot;highlighter-rouge&quot;&gt;rdebug small_script.rb&lt;/code&gt;. And… voila!&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/889122.js?file=debug_1.rb&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;[-4, 5] in /projects/889122/small_script.rb
+=&amp;gt; 1  dude = true
+   2  
+   3  if dude
+   4    puts &amp;quot;Hey dude&amp;quot;
+   5  else
+/projects/889122/small_script.rb:1
+dude = true
+(rdb:1) 
+&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Here you can see the debugger.&lt;/p&gt;
+
+&lt;p&gt;Here’s the file in which you’ve stopped:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;[-4, 5] in /projects/889122/small_script.rb&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This arrow indicates that you’re stopped there:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;=&amp;gt; 1 dude = true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;And this is the rdebug console where you can give commands to the debugger.:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;(rdb:1) _&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s give it a quick try to see how the commands work. Type &lt;code class=&quot;highlighter-rouge&quot;&gt;help&lt;/code&gt; and press
+enter.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/889122.js?file=rdebug_help&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;ruby-debug help v0.10.4
+Type &amp;#39;help &amp;lt;command-name&amp;gt;&amp;#39; for help on a specific command
+
+Available commands:
+backtrace  delete   enable  help  method  putl     set     trace    
+break      disable  eval    info  next    quit     show    undisplay
+catch      display  exit    irb   p       reload   step    up       
+condition  down     finish  kill  pp      restart  thread  var      
+continue   edit     frame   list  ps      save     tmate   where&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;As you can see there’re plenty of commands in the debugger, those ones you will
+use them a lot.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;next&lt;/strong&gt; (you can use it shortened as &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; as well) will make the
+script go one step forward.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;continue&lt;/strong&gt; (shortened as &lt;code class=&quot;highlighter-rouge&quot;&gt;c&lt;/code&gt;) will make the script continue until it
+finds a breakpoint.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;step&lt;/strong&gt; (shortened as &lt;code class=&quot;highlighter-rouge&quot;&gt;s&lt;/code&gt;) will step into a method.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;break&lt;/strong&gt; (shortened as &lt;code class=&quot;highlighter-rouge&quot;&gt;b&lt;/code&gt;) sets a breakpoint with the format &lt;code class=&quot;highlighter-rouge&quot;&gt;b
+file_name.rb:XX&lt;/code&gt; where XX is the line number.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For everything else… I encourage you to spend 15 minutes reading each command
+help 1 by 1. Special mention to &lt;code class=&quot;highlighter-rouge&quot;&gt;irb&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;where&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;up&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;down&lt;/code&gt; commands.&lt;/p&gt;
+
+&lt;p&gt;Enjoy your debugging!!&lt;/p&gt;</content><author><name></name></author><summary type="html">Debugging r00lz. Maybe you’re trying to find an elusive bug or how that spaghetti piece of code works, in any case is a quite powerful tool and you should add it to your day to day job.</summary></entry><entry><title type="html">PayPal on Rails</title><link href="https://dev.otrobloggek.com/ruby/2011/01/30/paypal-on-rails.html" rel="alternate" type="text/html" title="PayPal on Rails" /><published>2011-01-30T00:00:00+01:00</published><updated>2011-01-30T00:00:00+01:00</updated><id>https://dev.otrobloggek.com/ruby/2011/01/30/paypal-on-rails</id><content type="html" xml:base="https://dev.otrobloggek.com/ruby/2011/01/30/paypal-on-rails.html">&lt;p&gt;After many searches in Google I found many explanations on how to use PayPal,
+however any of them did what I exactly needed. So here’s what I did step by
+step last time I needed it.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-paypal-works&quot;&gt;How PayPal works&lt;/h2&gt;
+
+&lt;p&gt;Take a look at this flow diagram:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;img-responsive img-thumbnail&quot; src=&quot;/assets/PayPalWPS.jpg &quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The buyer goes to PayPal and performs the needed payment. (This is steps
+1 and 2 in the diagram)&lt;/li&gt;
+  &lt;li&gt;PayPal takes the payment and redirects your buyer back to your
+application.  (steps 3 and 4)&lt;/li&gt;
+  &lt;li&gt;Some time after that, PayPal will send you a callback response with the
+    details of the received payment. Your application will use those details to
+make sure the payment was OK and mark the order as paid. (Steps 5 and 6)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;set-up-your-paypal-sandbox&quot;&gt;Set up your PayPal sandbox&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://developer.paypal.com&quot;&gt;Sign up here&lt;/a&gt; To get a sandbox
+  account. This account will allow you to handle your development
+  tools:&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Seller and buyer mock accounts&lt;/em&gt;: That way you can test your payments
+without need to use a real account/bank account/credit card.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;IPN (Instant Payment Notification) testing&lt;/em&gt;: This is the way that
+PayPal informs your application when the payment is done.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Create a seller and buyer mock accounts. Preconfigured seller
+ accounts failed for me, they always failed for me 100% of times in a
+ period of many months. I’m quite sure it’s my fault, but I just
+ couldn’t find enough info to know what I did wrong.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;set-up-your-application&quot;&gt;Set up your application&lt;/h2&gt;
+
+&lt;h3 id=&quot;install-activemerchant&quot;&gt;Install ActiveMerchant.&lt;/h3&gt;
+&lt;p&gt;Here it came my second big problem. Just couldn’t figure out how to make it
+work in the form of a gem. So I finally had to install it as a plugin.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;rails plugin install git://github.com/Shopify/active_merchant.git&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;From the above diagram you application will need to:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Be able to send payment details to PayPal.&lt;/li&gt;
+  &lt;li&gt;Receive a callback from PayPal to acknowledge the received payment.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And here’s where ActiveMerchant enters. It provides a helper to craft a form
+with the needed hidden fields which you will send to PayPal and a class with
+the needed logic to receive and validate the callback from PayPal.&lt;/p&gt;
+
+&lt;h3 id=&quot;configure-active-merchant&quot;&gt;Configure Active Merchant&lt;/h3&gt;
+
+&lt;p&gt;Set up an initializer file like &lt;code class=&quot;highlighter-rouge&quot;&gt;config/initializers/active_merchant.rb&lt;/code&gt; with
+the following content (it explains itself… isn’t it?):&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/792543.js?file=active_merchant.rb&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# config/initializer/active_merchant.rb
+
+if Rails.env.production? 
+  PAYPAL_ACCOUNT = &amp;#39;production.paypal.account@domain.com&amp;#39;
+else
+  PAYPAL_ACCOUNT = &amp;#39;test.paypal.account@domain.com&amp;#39;
+  ActiveMerchant::Billing::Base.mode = :test
+end
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;set-up-the-paypal-button&quot;&gt;Set up the PayPal button&lt;/h3&gt;
+
+&lt;p&gt;Use something like that to generate the button that your user has to push so
+that he makes the payment.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/792543.js?file=new.html.erb&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;!-- app/views/payment/new.html.erb --&amp;gt;
+
+&amp;lt;% payment_service_for @order.id, PAYPAL_ACCOUNT,
+        :amount =&amp;gt; @order.price, :currency =&amp;gt; &amp;#39;EUR&amp;#39;,
+        :service =&amp;gt; :paypal do |service|
+
+    service.customer :first_name =&amp;gt; current_user.name,
+        :last_name =&amp;gt; current_user.surname,
+        :email =&amp;gt; current_user.email
+
+    service.item_name @order.items_summary
+
+    # PayPal will POST a callback here when the payment is done
+    service.notify_url notifications_url(@order)
+    # PayPal will take your user here with a POST after he pays
+    service.return_url paypal_return_notifications_url(@order)
+    # PayPal will redirect your user here if he cancels the payment
+    service.cancel_return_url paypal_cancel_notifications_url(@order) %&amp;gt;
+
+    &amp;lt;%= submit_tag &amp;#39;Pay this order&amp;#39; %&amp;gt;
+&amp;lt;% end %&amp;gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;If you need to send more info to PayPal take a look at the ActiveMerchant’s doc
+or even at its code, to see which options are accepted by the
+&lt;code class=&quot;highlighter-rouge&quot;&gt;payment_service_for&lt;/code&gt; helper. Just FYI, the helper doesn’t support multiple
+items. In case you need it you’ll need to craft your own helper… and maybe
+send a pull request to ActiveMerchant ^^.&lt;/p&gt;
+
+&lt;h3 id=&quot;gather-and-acknowledge-the-paypal-response&quot;&gt;Gather and acknowledge the PayPal response&lt;/h3&gt;
+
+&lt;p&gt;PayPal will send you a notification so you can know when the order is paid.
+This following code is a sample of how this can be done.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/792543.js?file=notifications_controller.rb&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# app/controllers/notifications_controller.rb
+
+class NotificationsController &amp;lt; ApplicationController
+  include ActiveMerchant::Billing::Integrations
+  protect_from_forgery :except =&amp;gt; [:create, :paypal_return] 
+
+  # This action is for when the buyer returns to your site from PayPal
+  def paypal_return
+    flash[:notice] = &amp;quot;Thanks for buying this!&amp;quot;
+    redirect_to root_path
+  end
+
+  # This action is for when the buyer cancels
+  def paypal_cancel
+    flash[:notice] = &amp;quot;We&amp;#39;re sorry you didn&amp;#39;t buy :(&amp;quot;
+    redirect_to root_path
+  end
+
+  # This is what will receive the IPN from PayPal
+  def create
+    # You maybe want to log this notification
+    notify = Paypal::Notification.new request.raw_post
+    @order = Order.unpaid.find(notify.item_id)
+
+    if notify.acknowledge
+      # Make sure you received the expected payment!
+      if notify.complete? and @order.price == BigDecimal.new( params[:mc_gross] )
+        # All your bussiness logic goes here
+        @order.update_attributes(:paid =&amp;gt; true)
+        render :nothing =&amp;gt; true
+      end
+    rescue
+      #Make sure you log the exceptions you have.
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;thats-all-folks&quot;&gt;That’s all folks!&lt;/h2&gt;
+
+&lt;p&gt;This is the most simple way I found to make PayPal work with ActiveMerchant.
+However it’s very limited and lacks support for things like multiple items and
+data encryption between your app and PayPal. Unluckly ActiveMerchant lacks
+support for these two things on its PayPal integration. However you can achieve
+this by using something &lt;a href=&quot;http://www.fortytwo.gr/blog/14/Using-Paypal-with-Rails&quot;&gt;like that&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you find some stupid thing or some bug here, just let me know so that I can
+fix it :)&lt;/p&gt;</content><author><name></name></author><summary type="html">After many searches in Google I found many explanations on how to use PayPal, however any of them did what I exactly needed. So here’s what I did step by step last time I needed it.</summary></entry><entry><title type="html">Paperclip as a gem</title><link href="https://dev.otrobloggek.com/ruby/2010/12/09/paperclip-as-a-gem.html" rel="alternate" type="text/html" title="Paperclip as a gem" /><published>2010-12-09T00:00:00+01:00</published><updated>2010-12-09T00:00:00+01:00</updated><id>https://dev.otrobloggek.com/ruby/2010/12/09/paperclip-as-a-gem</id><content type="html" xml:base="https://dev.otrobloggek.com/ruby/2010/12/09/paperclip-as-a-gem.html">&lt;p&gt;&lt;strong&gt;Edit 2012-07-04:&lt;/strong&gt; You won’t have those problems with latest rails and
+paperclip. As far as I know this only happens with rails 2.&lt;/p&gt;
+
+&lt;p&gt;I love &lt;a href=&quot;http://github.com/thoughtbot/paperclip&quot;&gt;paperclip&lt;/a&gt;. To be clear it just
+works. It makes what it has been designed for and makes it easy and flexible
+enough to do some other things.&lt;/p&gt;
+
+&lt;p&gt;However, there’s something with paperclip that always disappoints me, it have
+some problems when you want to install it as a gem, and, in my case, when you
+want to use it with &lt;a href=&quot;http://gembundler.com&quot;&gt;bundler&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The problem is that it doesn’t load the rake tasks nor the should macros.
+Shoulda macros are loaded without problem if the gem is vendored in the project
+dir, since shoulda will look for it. But to load the macros when not vendored
+you need the following code on your &lt;code class=&quot;highlighter-rouge&quot;&gt;test_helper.rb&lt;/code&gt; just before &lt;code class=&quot;highlighter-rouge&quot;&gt;class ActiveSupport::TestCase&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/734635.js&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;require File.expand_path(File.join(Gem.datadir(&amp;#39;paperclip&amp;#39;), &amp;#39;..&amp;#39;, &amp;#39;..&amp;#39;, &amp;#39;shoulda_macros&amp;#39;, &amp;#39;paperclip.rb&amp;#39;))
+
+class ActiveSupport::TestCase
+# ... 
+# here comes your custom test options
+end&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;That way the macros are properly load and you can use them on your tests.&lt;/p&gt;
+
+&lt;p&gt;To load the rake tasks you need a similar approach. Just include this line in
+your Rakefile. If you’re using Rails 3 it will properly load automatically the
+rake tasks for you so no need for this trick.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/734642.js&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#Newest versions
+import File.expand_path(File.join(Gem.datadir(&amp;#39;paperclip&amp;#39;), &amp;#39;..&amp;#39;, &amp;#39;..&amp;#39;, &amp;#39;lib&amp;#39;, &amp;#39;tasks&amp;#39;, &amp;#39;paperclip.rake&amp;#39;))
+# Versions older than 2.3.2
+import File.expand_path(File.join(Gem.datadir(&amp;#39;paperclip&amp;#39;), &amp;#39;..&amp;#39;, &amp;#39;..&amp;#39;, &amp;#39;tasks&amp;#39;, &amp;#39;paperclip_tasks.rake&amp;#39;))&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;</content><author><name></name></author><summary type="html">Edit 2012-07-04: You won’t have those problems with latest rails and paperclip. As far as I know this only happens with rails 2.</summary></entry><entry><title type="html">How to include a flowplayer video inside a fancybox modal window</title><link href="https://dev.otrobloggek.com/javascript/2010/09/10/how-to-include-a-flowplayer-video-inside-a-fancybox-modal-window.html" rel="alternate" type="text/html" title="How to include a flowplayer video inside a fancybox modal window" /><published>2010-09-10T00:00:00+02:00</published><updated>2010-09-10T00:00:00+02:00</updated><id>https://dev.otrobloggek.com/javascript/2010/09/10/how-to-include-a-flowplayer-video-inside-a-fancybox-modal-window</id><content type="html" xml:base="https://dev.otrobloggek.com/javascript/2010/09/10/how-to-include-a-flowplayer-video-inside-a-fancybox-modal-window.html">&lt;p&gt;Thats how I make to integrate &lt;a href=&quot;http://flowplayer.org/&quot;&gt;flowplayer&lt;/a&gt; inside a
+&lt;a href=&quot;http://fancybox.net/&quot;&gt;fancybox&lt;/a&gt; modal window.&lt;/p&gt;
+
+&lt;p&gt;This following code shows a hidden &lt;code class=&quot;highlighter-rouge&quot;&gt;div&lt;/code&gt; which will include the video. When
+clicking the “Play video” link it will show a fancybox modal window with the
+flowplayer video inside.&lt;/p&gt;
+
+&lt;p&gt;When closing the fancybox it will unload the video player and hide the div.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/571643.js&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;!-- Don&amp;#39;t forget to include flowplayer js and fancybox js and css --&amp;gt;
+
+&amp;lt;div style=&amp;quot;width:665px;height:480px;display:none;&amp;quot; id=&amp;quot;player&amp;quot;&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;a id=&amp;quot;play-flv-video&amp;quot; href=&amp;quot;#player&amp;quot;&amp;gt;Play video&amp;lt;/a&amp;gt;
+
+&amp;lt;script language=&amp;quot;JavaScript&amp;quot;&amp;gt;
+$(document).ready(function() {
+     $(&amp;quot;a#play-flv-video&amp;quot;).fancybox({
+         &amp;#39;scrolling&amp;#39;: false,
+         &amp;#39;titleShow&amp;#39;: false,
+         &amp;#39;padding&amp;#39;  : 0,
+         &amp;#39;onStart&amp;#39;  : function() {
+             $(&amp;quot;#player&amp;quot;).show();
+             $f(&amp;quot;player&amp;quot;,
+                     &amp;quot;/swf/flowplayer-3.2.3.swf&amp;quot;,
+                     &amp;quot;/video/myvideo.flv&amp;quot;);
+         },
+         &amp;#39;onClosed&amp;#39;  : function() {
+             $(&amp;quot;#player&amp;quot;).hide();
+             $f().unload();
+         }
+     });
+ });
+&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;</content><author><name></name></author><summary type="html">Thats how I make to integrate flowplayer inside a fancybox modal window.</summary></entry><entry><title type="html">How to make Passenger 2.2.15 work with Bundler 0.8.1</title><link href="https://dev.otrobloggek.com/ruby/2010/09/07/make-passenger-2.2.15-work-with-bundler-0.8.1.html" rel="alternate" type="text/html" title="How to make Passenger 2.2.15 work with Bundler 0.8.1" /><published>2010-09-07T00:00:00+02:00</published><updated>2010-09-07T00:00:00+02:00</updated><id>https://dev.otrobloggek.com/ruby/2010/09/07/make-passenger-2.2.15-work-with-bundler-0.8.1</id><content type="html" xml:base="https://dev.otrobloggek.com/ruby/2010/09/07/make-passenger-2.2.15-work-with-bundler-0.8.1.html">&lt;p&gt;&lt;strong&gt;Edit 2012-07-03:&lt;/strong&gt; If you have the same problems… Try to switch to a better
+solution like &lt;a href=&quot;http://pow.cx&quot;&gt;Pow&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;From now I’m using Passenger with Apache and &lt;a href=&quot;http://github.com/alloy/passengerpane&quot;&gt;Passenger Pane&lt;/a&gt; in my development environment. The
+only problem is that in most cases we’re using Bundler 0.8.1 in production,
+which is old and deprecated. To keep my dev environment similar to the
+production one I just use 0.8.1 in my dev machine.&lt;/p&gt;
+
+&lt;p&gt;To make them work together you just have to add the empty file
+&lt;code class=&quot;highlighter-rouge&quot;&gt;config/setup_load_paths.rb&lt;/code&gt; to your application. This file will be required
+before Passenger loads you gems as an alternative way to loading those gems…
+and it will just do nothing. You can get more info
+&lt;a href=&quot;http://www.modrails.com/documentation/Users%20guide%20Apache.html#bundler_support&quot;&gt;here&lt;/a&gt;
+Once this is done your application will just work :)&lt;/p&gt;</content><author><name></name></author><summary type="html">Edit 2012-07-03: If you have the same problems… Try to switch to a better solution like Pow.</summary></entry></feed>
