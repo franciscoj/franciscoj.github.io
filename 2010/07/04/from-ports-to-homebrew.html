@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>I write code</title>
-  <meta name="description" content="This is just me coding">
+  <title>From Mac Ports to Homebrew</title>
+  <meta name="description" content="Update: April 24th 2014: I no longer use mac, so this might be very outdated.">
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://dev.otrobloggek.com/">
+  <link rel="canonical" href="https://dev.otrobloggek.com/2010/07/04/from-ports-to-homebrew.html">
   <link rel="alternate" type="application/rss+xml" title="I write code" href="/feed.xml">
   
   
@@ -80,137 +80,82 @@
 
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">From Mac Ports to Homebrew</h1>
+    <p class="post-meta">
+      <time datetime="2010-07-04T00:00:00+02:00" itemprop="datePublished">
+        
+        Jul 4, 2010
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><strong>Update: April 24th 2014</strong>: I no longer use mac, so this might be very outdated.</p>
+
+<p>I’ve lately moved from <a href="http://www.macports.org/">Mac Ports</a> to
+<a href="http://github.com/mxcl/homebrew">Homebrew</a>. I find Homebrew an easier and more
+intuitive system than Mac Ports and it gives me the option to customize the
+installations.</p>
+
+<p>Homebrew is composed of a set of “formulas” with the instructions to compile
+and install pieces of software, like ImageMagick or ffmpeg. Each one of these
+formulas can be customized to make it suit your needs in an easy way. This is
+an example formula from their web site.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Wget</span> <span class="o">&lt;</span> <span class="no">Formula</span>
+  <span class="n">homepage</span> <span class="s2">"https://www.gnu.org/software/wget/"</span>
+  <span class="n">url</span> <span class="s2">"https://ftp.gnu.org/gnu/wget/wget-1.15.tar.gz"</span>
+  <span class="n">sha256</span> <span class="s2">"52126be8cf1bddd7536886e74c053ad7d0ed2aa89b4b630f76785bac21695fcd"</span>
+
+  <span class="k">def</span> <span class="nf">install</span>
+    <span class="nb">system</span> <span class="s2">"./configure"</span><span class="p">,</span> <span class="s2">"--prefix=</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">"</span>
+    <span class="nb">system</span> <span class="s2">"make"</span><span class="p">,</span> <span class="s2">"install"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>As you see, plain Ruby, easy to customize :)</p>
+
+<p>To install it the first step for me was to remove Mac Ports, the <a href="http://guide.macports.org/chunked/installing.macports.uninstalling.html">instructions are on its homepage</a>.
+After this is quite easy to install Homebrew just following the instructions on
+<a href="http://wiki.github.com/mxcl/homebrew/installation">it’s homepage</a>.</p>
+
+<p>Once it’s done, you can install something as easy as.</p>
+
+<p><code class="highlighter-rouge">brew install imagemagick</code></p>
+
+<p>In fact I needed imagemagick just to <a href="http://rmagick.rubyforge.org/install-faq.html">install rmagick</a> gem, which have this
+library as a dependency.</p>
+
+  </div>
+
   
+    
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://dev.otrobloggek.com/2010/07/04/from-ports-to-homebrew.html';
+      this.page.identifier = 'https://dev.otrobloggek.com/2010/07/04/from-ports-to-homebrew.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://franciscoj.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
   
-
-
-  <ul class="post-list">
-    
-      <li>
-        
-        <span class="post-meta">Dec 23, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/2016/12/23/move-files-with-netrw.html">Move files with netrw</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Mar 8, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/2016/03/08/my-emacs-setup.html">My emacs setup</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Apr 27, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/2014/04/27/rock-your-gitting.html">Rock your gitting</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Nov 2, 2011</span>
-
-        <h2>
-          <a class="post-link" href="/2011/11/02/how-to-use-twitter-bootstrap-with-simple-form.html">How to use Twitter bootstrap with simple_form</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Mar 27, 2011</span>
-
-        <h2>
-          <a class="post-link" href="/2011/03/27/rails-debug-with-passenger.html">Rails debug with passenger</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Mar 26, 2011</span>
-
-        <h2>
-          <a class="post-link" href="/2011/03/26/ruby-debug.html">How to debug a ruby script</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Jan 30, 2011</span>
-
-        <h2>
-          <a class="post-link" href="/2011/01/30/paypal-on-rails.html">PayPal on Rails</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Dec 9, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/12/09/paperclip-as-a-gem.html">Paperclip as a gem</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Sep 10, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/09/10/how-to-include-a-flowplayer-video-inside-a-fancybox-modal-window.html">How to include a flowplayer video inside a fancybox modal window</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Sep 7, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/09/07/make-passenger-2.2.15-work-with-bundler-0.8.1.html">How to make Passenger 2.2.15 work with Bundler 0.8.1</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Sep 6, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/09/06/how-to-handle-cmyk-images-with-paperclip.html">How to handle CMYK images with Paperclip</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Jul 4, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/07/04/from-ports-to-homebrew.html">From Mac Ports to Homebrew</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Jun 29, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/06/29/avoid-using-eval-on-javascript.html">Avoid using eval() on Javascript</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
-</div>
+</article>
 
       </div>
     </main>

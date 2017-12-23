@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>I write code</title>
-  <meta name="description" content="This is just me coding">
+  <title>Avoid using eval() on Javascript</title>
+  <meta name="description" content="Javascript’s eval() function is evil. Its performance is bad, and it’s very difficult to debug. If you ever use it the goto raptor will come for you…">
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://dev.otrobloggek.com/">
+  <link rel="canonical" href="https://dev.otrobloggek.com/2010/06/29/avoid-using-eval-on-javascript.html">
   <link rel="alternate" type="application/rss+xml" title="I write code" href="/feed.xml">
   
   
@@ -80,137 +80,103 @@
 
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Avoid using eval() on Javascript</h1>
+    <p class="post-meta">
+      <time datetime="2010-06-29T20:02:00+02:00" itemprop="datePublished">
+        
+        Jun 29, 2010
+      </time>
+      </p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Javascript’s eval() function is evil. Its performance is bad, and it’s very
+difficult to debug. If you ever use it the <a href="http://xkcd.com/292/">goto raptor</a>
+will come for you…</p>
+
+<p>OK, now I know why not to use <code class="highlighter-rouge">eval()</code> but… How could I avoid that evil
+function in my code?</p>
+
+<p>The 3 main uses I’ve found for <code class="highlighter-rouge">eval()</code> are:</p>
+
+<ul>
+  <li>Assign a property to an object when you have its name calculated in a
+variable</li>
+  <li>Call a function when you’ve it’s name calculated in a variable</li>
+  <li>Create an object from a class when you’ve it’s name calculated in a variable</li>
+</ul>
+
+<p>To sum up, <strong>do any access of any kind to any object’s property when you’ve this
+property name in a variable</strong>. This kind of access can be accomplished using
+this notation.</p>
+
+<div><script src="https://gist.github.com/1128154.js?file=sample1.js"></script><noscript><pre><code>var property = &quot;property_name&quot;;
+var object = new Object()
+alert(object[property]) //will alert object.property_name
+alert(object[&quot;property_name&quot;]); //will alert object.property_name
+alert(window[&quot;object&quot;][&quot;property_name&quot;]) //will alert object.property_name</code></pre></noscript></div>
+
+<p>If you don’t believe it, just copy&amp;paste the previous code on Firebug and see
+how it works.</p>
+
+<p>So, let’s now see an example on the previous cases</p>
+
+<div><script src="https://gist.github.com/1128154.js?file=sample2.js"></script><noscript><pre><code>//assign a property to an object when
+//you have its name calculated in a variable
+var property_name = &quot;a_great_property&quot;
+var object = new Object();
+object[property_name] = &quot;Hello world!&quot;;
+alert(object.property_name); //will alert Hello world!
+
+//call a function when you’ve it’s name
+//calculated in a variable
+var function_name = &quot;whatever_function&quot;;
+var object = {
+  whatever_function: function(){
+    alert(&quot;Hello world!&quot;);
+  }
+}
+object[function_name_](); // will alert Hello world!
+
+//create an object from a class when
+//you&#39;ve it&#39;s name calculated in a variable
+var klass_name = &quot;Object&quot;;
+var object = new window[klass_name];
+</code></pre></noscript></div>
+
+<p>Those were just a couple of basic examples that I could remember, but I’m quite
+sure that there are much more other evil uses of <code class="highlighter-rouge">eval()</code> out there that you
+can destroy :D</p>
+
+  </div>
+
   
+    
+
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://dev.otrobloggek.com/2010/06/29/avoid-using-eval-on-javascript.html';
+      this.page.identifier = 'https://dev.otrobloggek.com/2010/06/29/avoid-using-eval-on-javascript.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://franciscoj.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
   
-
-
-  <ul class="post-list">
-    
-      <li>
-        
-        <span class="post-meta">Dec 23, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/2016/12/23/move-files-with-netrw.html">Move files with netrw</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Mar 8, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/2016/03/08/my-emacs-setup.html">My emacs setup</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Apr 27, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/2014/04/27/rock-your-gitting.html">Rock your gitting</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Nov 2, 2011</span>
-
-        <h2>
-          <a class="post-link" href="/2011/11/02/how-to-use-twitter-bootstrap-with-simple-form.html">How to use Twitter bootstrap with simple_form</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Mar 27, 2011</span>
-
-        <h2>
-          <a class="post-link" href="/2011/03/27/rails-debug-with-passenger.html">Rails debug with passenger</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Mar 26, 2011</span>
-
-        <h2>
-          <a class="post-link" href="/2011/03/26/ruby-debug.html">How to debug a ruby script</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Jan 30, 2011</span>
-
-        <h2>
-          <a class="post-link" href="/2011/01/30/paypal-on-rails.html">PayPal on Rails</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Dec 9, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/12/09/paperclip-as-a-gem.html">Paperclip as a gem</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Sep 10, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/09/10/how-to-include-a-flowplayer-video-inside-a-fancybox-modal-window.html">How to include a flowplayer video inside a fancybox modal window</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Sep 7, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/09/07/make-passenger-2.2.15-work-with-bundler-0.8.1.html">How to make Passenger 2.2.15 work with Bundler 0.8.1</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Sep 6, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/09/06/how-to-handle-cmyk-images-with-paperclip.html">How to handle CMYK images with Paperclip</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Jul 4, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/07/04/from-ports-to-homebrew.html">From Mac Ports to Homebrew</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Jun 29, 2010</span>
-
-        <h2>
-          <a class="post-link" href="/2010/06/29/avoid-using-eval-on-javascript.html">Avoid using eval() on Javascript</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
-</div>
+</article>
 
       </div>
     </main>
